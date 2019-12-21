@@ -24,10 +24,10 @@ class Dev extends Controller {
                 $class = str_replace('_', ' ', $table);
                 $class = ucwords($class);
                 $class = str_replace(' ', '', $class);
-                $controllerName = $class.'Controller';
-                $this->createController($controllerName, $class);
-                $this->createModel($class, $table, $fields, $pk);
-                $this->updateRouter($table,$controllerName);
+                $modelName = $class.'Model';
+                $this->createController($class, $modelName);
+                $this->createModel($modelName, $table, $fields, $pk);
+                // $this->updateRouter($table,$class);
                 echo "<script>alert('model & controller created')</script>";
             }
             else{
@@ -71,7 +71,7 @@ class Dev extends Controller {
         $myfile = fopen('application/models/'.$class.".php", "w") or die("Unable to open file!");
         $txt = "<?php \n";
         fwrite($myfile, $txt);
-        $txt = 'class '.$class." extends Models \n{\n\tpublic \$tablname = '$table';";
+        $txt = 'class '.$class." extends Models \n{\n\tpublic \$tableName = '$table';";
         fwrite($myfile, $txt);
         $txt = "\n\tpublic \$columns = [\n".$str_fields."\n\t];";
         fwrite($myfile, $txt);

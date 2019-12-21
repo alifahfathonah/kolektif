@@ -5,7 +5,7 @@ class Models extends CI_Model
     public $tableName;
     public $columns = [null];
     public $primaryKey = 'id';
-    public $data = null; 
+    public $data;
     public $nullable;
     public $errors;
     public $datatype = [];
@@ -15,7 +15,11 @@ class Models extends CI_Model
     {
         parent::__construct();
         if ($id!=null) {
+            $this->_id = $id;
             $data = $this->find($id);
+            if ($data==null) {
+                show_404();
+            }
             $this->data = $data;
         }
         foreach ($this->columns as $key => $value) {
@@ -45,9 +49,13 @@ class Models extends CI_Model
         }
         return false;
     }
-    public function update($id, $data)
+    public function update()
     {
-        
+        if ($this->data!=null) {
+            $this->db->where($this->primaryKey, $this->_id);
+            $this->db->update($this->tableName, $this->data);
+        }
+        return false;
     }
     public function setAttributes(Array $arr)
     {
@@ -55,7 +63,7 @@ class Models extends CI_Model
             if (is_array($value)) {
                 $value = $value['field'];
             }
-            $this->data[$value] = isset($arr[$value]) ? $arr[$value] : null;
+            $this->data->$value = isset($arr[$value]) ? $arr[$value] : null;
             $this->$value = isset($arr[$value]) ? $arr[$value] : null;
         }
     }
@@ -74,15 +82,18 @@ class Models extends CI_Model
         return count($this->errors)==0;
     }
     
-    public function serializeForm($class='form-control', $action='/')
+    public function serializeForm(Array $config=[])
     {
+        $class = isset($config['class']) ? $config['class']: 'form-control'; 
+        $action= isset($config['action']) ? $config['action']: '';
         foreach ($this->columns as $key => $value) {
             if (is_array($value)) {
                 $value = $value['field'];
             }
+            $data = isset($this->data->$value) ?$this->data->$value : '';
             $form[] = '
             <div class="form-group">
-                <input placeholder="'.strtolower($value).'" type="text" class="'.$class.'" name="'.$value.'"> 
+                <input placeholder="'.strtolower($value).'" type="text" value="'.$data.'" class="'.$class.'" name="'.$value.'"> 
             </div>';
         }
         return form_open($action).implode('', $form).'<input type="submit" class="btn btn-success" value="Submit"> </form>';
