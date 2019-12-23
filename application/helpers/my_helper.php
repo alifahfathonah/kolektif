@@ -72,13 +72,22 @@ function serializeTable($model, Array $config = [])
     $actionLabel = $action ? '<th style="width: 100px"></th>' : '';
 
     foreach ($columns as $key => $value) {
-        $label = ucwords(str_replace('_', ' ', $value));
+        if (is_array($value)) {
+            $label_raw = $value['label'];
+        }
+        else{
+            $label_raw = $value;
+        }
+        $label = ucwords(str_replace('_', ' ', $label_raw));
         $ths[] = '<th>'.$label.'</th>';
     }
     foreach ($model as $key => $value) {
         $index = $key+1;
         $action_btn = $action ? actionColoumn($action, isset($config['uri']) ? $config['uri'] : null, $value->id) : '';
         foreach ($columns as $key2 => $value2) {
+            if (is_array($value2)) {
+                $value2 = $value2['attribute'];
+            }
             $rows[$key2] = '<td>'.$value->$value2.'</td>';
         }
         $row = implode("\n", $rows);

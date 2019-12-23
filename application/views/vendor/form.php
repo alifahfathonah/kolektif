@@ -10,13 +10,7 @@
 							'field' => 'field_id', 
 							'inputType' => 'dropdown', 
 							'label' => 'Field',
-							'content' => [			//content dropdown
-								['label' => 'Pilihan 1', 'value' => 1],
-								['label' => 'Pilihan 2', 'value' => 2],
-								['label' => 'Pilihan 3', 'value' => 3],
-								['label' => 'Pilihan 4', 'value' => 4],
-								['label' => 'Pilihan 5', 'value' => 5],
-							],
+							'content' => $dropdown_list,
 						],
 						['field' => 'attachment', 'inputType' => 'file']]
 				]) ?>

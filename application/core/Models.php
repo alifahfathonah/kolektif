@@ -96,6 +96,18 @@ class Models extends CI_Model
         }
         return false;
     }
+    
+	public function getListForDropdown($labe_name='name')
+	{
+        $data = $this->findAll();
+        $pk = $this->primaryKey;
+        $arr = [];
+        foreach ($data as $key => $value) {
+            $arr[$key]['value'] = $value->$pk;
+            $arr[$key]['label'] = $value->$labe_name;
+        }
+        return $arr;
+	}
     public function remove()
     {
         $this->db->where($this->primaryKey, $this->_id);
