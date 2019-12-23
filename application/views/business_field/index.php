@@ -8,14 +8,7 @@
 					<div class="table-responsive b-0" data-pattern="priority-columns">
 						<?php serializeTable($model, [
 							'columns' => [
-								'name',
-								[
-									'label' => 'Business Field',
-									'attribute' => 'nameBf'
-								],
-                                'npwp',
-                                'contact',
-                                'account_number'
+								'name'
 								
 							],
 							'uri' => $controllerId,

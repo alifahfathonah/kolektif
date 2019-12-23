@@ -1,13 +1,15 @@
 <?php 
 class Vendor extends Controller 
 {
-	public $models = ['VendorModel', 'Upload']; 
+	public $models = ['VendorModel', 'Upload', 'BusinessFieldModel']; 
 	public function index()
 	{
 		$model = new VendorModel();
+		$model->select(['vendor.*', 'business_field.name as nameBf']);
+		$model->joinWith('business_field', 'business_field.id = vendor.field_id');
 		$dataProvider = $model->findAll();
 		$this->render('vendor/index', [
-			'model' => $dataProvider
+			'model' => $dataProvider,
 		]);
 	}
 
@@ -26,6 +28,9 @@ class Vendor extends Controller
 	public function create()
 	{
 		$model = new VendorModel();
+		$bfm = new BusinessFieldModel();
+		$dropdown_list = $bfm->getListForDropdown();
+		
 		$upload = new Upload();
 		if ($this->input->post()!= null) {
 			$model->setAttributes($this->input->post());
@@ -42,7 +47,8 @@ class Vendor extends Controller
 			}
 		}
 		$this->render('vendor/form', [
-			'model' => $model
+			'model' => $model,
+			'dropdown_list' => $dropdown_list
 		]);
 		
 	}
@@ -50,6 +56,9 @@ class Vendor extends Controller
 	{
 		$model = new VendorModel($id);
 		$upload = new Upload();
+		$bfm = new BusinessFieldModel();
+		$dropdown_list = $bfm->getListForDropdown();
+
 		if ($this->input->post()!= null) {
 			$model->setAttributes($this->input->post());
 			if ($upload->save('attachment')) {
@@ -62,7 +71,8 @@ class Vendor extends Controller
 			}
 		}
 		$this->render('vendor/form', [
-			'model' => $model
+			'model' => $model,
+			'dropdown_list' => $dropdown_list
 		]);
 		
 	}
