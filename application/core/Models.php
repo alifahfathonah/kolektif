@@ -7,13 +7,14 @@ class Models extends CI_Model
     public $primaryKey = 'id';
     public $data;
     public $nullable;
-    public $errors;
+    public $errors = [];
     public $datatype = [];
-
 
     public function __construct($id=null)
     {
         parent::__construct();
+        $this->data = new \stdClass();
+        // dd($this->db);
         if ($id!=null) {
             $this->_id = $id;
             $data = $this->find($id);
@@ -32,14 +33,52 @@ class Models extends CI_Model
             $this->datatype[$value] = $type;
         }
     }
-
-    public function findAll()
+    public function beforeInsert()
     {
-        return $query = $this->db->get($this->tableName)->result_object();
+        $this->data->create_date = date("Y-m-d H:i:s");
+    }
+    public function beforeUpdate()
+    {
+        $this->data->update_date = date("Y-m-d H:i:s");
+    }
+    public function rawQuery(String $query)
+    {
+        return $this->db->query($query)->result_object();
+    }
+    public function select(Array $select)
+    {
+        return $this->db->select($select);
+    }
+    public function groupBy(Array $group)
+    {
+        return $this->db->group_by($group);
+    }
+    public function orderBy(Array $order =[])
+    {
+        foreach ($order as $key => $value) {
+            $this->db->order_by($key,$value);            
+        }
+    }
+    public function joinWith($table, $on, $type='inner')
+    {
+        $this->db->join($table, $on, $type);
+    }
+    public function findAll(Array $config = [])
+    {
+        if (isset($this->joinWith)) {
+            $this->db->join($this->joinWith['field'], $this->joinWith['on'], $this->joinWith['type']);
+        }
+        $query = $this->db->get($this->tableName);
+        $this->data = $query;
+        return $query->result_object();
     }
     public function find($id)
     {
-        $query = $this->db->get_where($this->tableName, [$this->primaryKey => $id])->row();
+        if (isset($this->joinWith)) {
+            $this->db->join($this->joinWith['field'], $this->joinWith['on'], $this->joinWith['type']);
+        }
+        $this->db->where([$this->tableName.'.'.$this->primaryKey => $id]);
+        $query = $this->db->get($this->tableName)->row();
         return $query;
     }
     public function insert()
@@ -57,25 +96,36 @@ class Models extends CI_Model
         }
         return false;
     }
+    public function remove()
+    {
+        $this->db->where($this->primaryKey, $this->_id);
+        return $this->db->delete($this->tableName);
+    }
     public function setAttributes(Array $arr)
     {
         foreach ($this->columns as $key => $value) {
             if (is_array($value)) {
                 $value = $value['field'];
             }
-            $this->data->$value = isset($arr[$value]) ? $arr[$value] : null;
-            $this->$value = isset($arr[$value]) ? $arr[$value] : null;
+            $this->$value = isset($arr[$value]) ? $arr[$value] : $this->$value;
+            $this->data->$value = $this->$value;
         }
     }
 
     public function validate()
     {
+        
+        $this->beforeInsert();
+        $this->beforeUpdate();
         foreach ($this->data as $key => $value) {
             if ($value==null) {
                 $this->errors[$key] = 'field '.$key.' cannot be null';
             }
-            if ($this->datatype[$key] == 'int' && !is_numeric($value)) {
-                $this->errors[$key] = 'must int';
+            if (isset($this->datatype[$key])) {
+                if ($this->datatype[$key] == 'int' && !is_numeric($value)) {
+                    $this->errors[$key] = 'must int';
+                }
+                
             }
         }
         
@@ -86,17 +136,63 @@ class Models extends CI_Model
     {
         $class = isset($config['class']) ? $config['class']: 'form-control'; 
         $action= isset($config['action']) ? $config['action']: '';
-        foreach ($this->columns as $key => $value) {
+        $columns = isset($config['columns']) ? $config['columns'] : $this->columns;
+        foreach ($columns as $key => $value) {
+            $inputType = isset($value['inputType']) ? $value['inputType'] : 'text';
+            $label = isset($value['label']) ? $value['label'] : null;
+            $dropDownContent = isset($value['content']) ? $value['content'] : null;
             if (is_array($value)) {
                 $value = $value['field'];
             }
+            
+            $label = $label == null ? ucwords(str_replace('_', ' ', $value)) : $label;
+
+            if (!isset($this->datatype[$value])) {
+                return 'column not valid';
+            }
             $data = isset($this->data->$value) ?$this->data->$value : '';
-            $form[] = '
-            <div class="form-group">
-                <input placeholder="'.strtolower($value).'" type="text" value="'.$data.'" class="'.$class.'" name="'.$value.'"> 
-            </div>';
+            if ($inputType == 'dropdown') {
+                $dropdown = $this->createDropdown($dropDownContent, $data);
+                $form[] = '
+                <div class="form-group">
+                    <label>'.$label.'</label>
+                    <select name="'.$value.'" class="'.$class.'">
+                         <option value="null" disabled selected>--Pilih '.$label.'--</option>
+                        '.$dropdown.'
+                    </select> 
+                </div>';
+            }
+            else{
+                $form[] = '
+                <div class="form-group">
+                    <input placeholder="'.strtolower($label).'" type="'.$inputType.'" value="'.$data.'" class="'.$class.'" name="'.$value.'"> 
+                </div>';
+            }
         }
-        return form_open($action).implode('', $form).'<input type="submit" class="btn btn-success" value="Submit"> </form>';
+        return form_open_multipart($action).implode('', $form).'<input type="submit" class="btn btn-success" value="Submit"> </form>';
+    }
+    public function createDropdown(Array $dropdown, $data)
+    {
+        foreach ($dropdown as $key => $value) {
+            if (is_array($value)) {
+                if ($value['value']==$data) {
+                    $drs[] = '<option selected value="'.$value['value'].'">'.$value['label'].'</option>';
+                }
+                else{
+                    $drs[] = '<option value="'.$value['value'].'">'.$value['label'].'</option>';
+                }
+            }
+            else{
+                $key++;
+                if ($key==$data) {
+                    $drs[] = '<option selected value="'.$key.'">'.$value.'</option>';
+                }
+                else{
+                    $drs[] = '<option value="'.$key.'">'.$value.'</option>';
+                }
+            }
+        }
+        return implode("\n", $drs);
     }
 }
 

@@ -4,6 +4,7 @@ class Controller extends CI_Controller
 {
     public $models;
     public $controllerId;
+    public $isDefaultController;
     
     public function __construct()
     {
@@ -16,7 +17,8 @@ class Controller extends CI_Controller
         $this->load->view('layouts/app', [
             'view' => $view,
             'params' => $params,
-            'controllerId'=> $this->controllerId
+            'controllerId'=> $this->controllerId,
+            'title' => ucfirst($this->controllerId),
         ]);
     }
 }

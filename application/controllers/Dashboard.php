@@ -3,23 +3,43 @@
 class Dashboard extends Controller 
 {
 
-	public $models = ['AntrianModel']; 
+	public $isDefaultController = true;
+	// public $models = ['AntrianModel']; 
+
 	public function index()
 	{
-		$model = new AntrianModel();
-		$dataProvider = $model->findAll();
-		$this->render('dashboard/index', [
-			'model' => $dataProvider
-		]);
+		$this->render('dashboard/index');
 		
 	}
 
 	public function edit($id)
 	{
 		$model = new AntrianModel($id);
+		// dd($model->data);
 		if ($this->input->post()!=null) {
 			$model->setAttributes($this->input->post());
 			$model->update();
+			redirect('dashboard/index');
+		}
+		$this->render('dashboard/edit', [
+			'model' => $model
+		]);
+	}
+	public function vieworder()
+	{
+		$model = new AntrianModel();
+		$data = $model->findAll();
+		dd($data);
+	}
+
+	public function create()
+	{
+		$model = new AntrianModel();
+		if ($this->input->post()!=null) {
+			$model->setAttributes($this->input->post());
+			// dd($model);
+			$model->insert();
+			redirect('dashboard/index');
 		}
 		$this->render('dashboard/edit', [
 			'model' => $model

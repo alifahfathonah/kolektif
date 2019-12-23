@@ -5,10 +5,10 @@
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-        <title>Kolektif Industri</title>
+        <title> <?= isset($title) ? $title .' - ' : '' ?> Kolektif Industri</title>
         <meta content="Responsive admin theme build on top of Bootstrap 4" name="description" />
         <meta content="Themesdesign" name="author" />
-        <link rel="shortcut icon" href="assets/brand.ico">
+        <link rel="shortcut icon" href="<?=base_url()?>/assets/brand.ico">
 
         <?php loadCss([
             'css/bootstrap.min.css',
@@ -31,10 +31,10 @@
                 <div class="topbar-left">
                     <a href="index.html" class="logo">
                         <span  class="logo-light">
-                            <img src="assets/brand.svg" alt=""> Kolektifindustri.com
+                            <img src="<?=base_url()?>/assets/brand.svg" alt=""> Kolektifindustri.com
                         </span>
                         <span class="logo-sm">
-                            <img src="assets/brand.svg" alt="">
+                            <img src="<?=base_url()?>/assets/brand.svg" alt="">
                         </span>
                     </a>
                 </div>
@@ -44,7 +44,7 @@
                         <li class="dropdown notification-list list-inline-item">
                             <div class="dropdown notification-list nav-pro-img">
                                 <a class="dropdown-toggle nav-link arrow-none nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                                    <img src="assets/images/users/user-4.jpg" alt="user" class="rounded-circle">
+                                    <img src="<?=base_url()?>/assets/images/users/user-4.jpg" alt="user" class="rounded-circle">
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
                                     <!-- item-->
@@ -79,20 +79,14 @@
                     <div id="sidebar-menu">
                         <ul class="metismenu" id="side-menu">
                             <li>
-                                <a href="javascript:void(0);" class="waves-effect mm-active"><i class="menu-icon icon-mail-open"></i><span> Dashboard <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
+                                <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-monitor-dashboard"></i><span> Dashboard <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
                                 <ul class="submenu">
-                                    <li class="mm-active"><a href="email-inbox.html">Inbox</a></li>
-                                    <li><a href="email-read.html">Email Read</a></li>
-                                    <li><a href="email-compose.html">Email Compose</a></li>
+                                    <li class=""><a href="<?=base_url('dashboard/')?>">List</a></li>
+                                    <li class=""><a href="<?=base_url('dashboard/create')?>">Create</a></li>
                                 </ul>
                             </li>
                             <li>
-                                <a href="javascript:void(0);" class="waves-effect"><i class="menu-icon icon-mail-open"></i><span> Dashboard <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
-                                <ul class="submenu">
-                                    <li><a href="email-inbox.html">Inbox</a></li>
-                                    <li><a href="email-read.html">Email Read</a></li>
-                                    <li><a href="email-compose.html">Email Compose</a></li>
-                                </ul>
+                                <a href="#" class="waves-effect"><i class="mdi mdi-logout"></i><span> Logout </span></a>
                             </li>
                         </ul>
 

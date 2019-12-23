@@ -27,6 +27,7 @@ class Dev extends Controller {
                 $modelName = $class.'Model';
                 $this->createController($class, $modelName);
                 $this->createModel($modelName, $table, $fields, $pk);
+                mkdir("./application/views/".$table);
                 // $this->updateRouter($table,$class);
                 echo "<script>alert('model & controller created')</script>";
             }
