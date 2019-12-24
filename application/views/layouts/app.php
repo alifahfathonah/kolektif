@@ -80,16 +80,7 @@
                 <div class="slimscroll-menu" id="remove-scroll">
                     <div id="sidebar-menu">
                         <ul class="metismenu" id="side-menu">
-                            <li>
-                                <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-monitor-dashboard"></i><span> Dashboard <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
-                                <ul class="submenu">
-                                    <li class=""><a href="<?=base_url('dashboard/')?>">List</a></li>
-                                    <li class=""><a href="<?=base_url('dashboard/create')?>">Create</a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#" class="waves-effect"><i class="mdi mdi-logout"></i><span> Logout </span></a>
-                            </li>
+                            <?= $createMenus; ?>
                         </ul>
 
                     </div>

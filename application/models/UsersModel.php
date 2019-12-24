@@ -19,6 +19,7 @@ class UsersModel extends Models
 		'purchasing' => 3
 	];
 
+
 	public $algo = PASSWORD_DEFAULT;
 
 	public function setPassword(String $password)

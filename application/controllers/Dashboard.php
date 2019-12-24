@@ -5,17 +5,21 @@ class Dashboard extends Controller
 
 	public $isDefaultController = true;
 	public $models = ['VendorModel', 'UsersModel']; 
+	public $asAccess = false;
 
 	public function index()
 	{
-		// session_destroy();
-		if ($this->isGuest()) {
-			echo 'guest';
-		}
-		else{
-			echo 'masuk';
-		}
-		dd($this->session->userdata("userdata"));
+		// $model = new UsersModel();
+		// $model->data->username = "sales";
+		// $model->data->name = "Sales User";
+		// $model->data->role = 1;
+		// $model->setPassword("sales1234");
+		// if ($model->validate()) {
+		// 	$model->insert();
+		// }
+		// else{
+		// 	dd($model->errors);
+		// }
 	}
 
 	public function edit($id)
