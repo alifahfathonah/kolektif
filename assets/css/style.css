@@ -1535,7 +1535,7 @@ dt {
   Alertify
 ===================*/
 .alertify, .alertify-logs {
-  z-index: 99;
+  z-index: 9999!important;
 }
 
 .alertify input {

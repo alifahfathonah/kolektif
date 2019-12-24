@@ -4,12 +4,18 @@ class Dashboard extends Controller
 {
 
 	public $isDefaultController = true;
-	// public $models = ['AntrianModel']; 
+	public $models = ['VendorModel', 'UsersModel']; 
 
 	public function index()
 	{
-		$this->render('dashboard/index');
-		
+		// session_destroy();
+		if ($this->isGuest()) {
+			echo 'guest';
+		}
+		else{
+			echo 'masuk';
+		}
+		dd($this->session->userdata("userdata"));
 	}
 
 	public function edit($id)

@@ -6,8 +6,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
         <title> <?= isset($title) ? $title .' - ' : '' ?> Kolektif Industri</title>
-        <meta content="Responsive admin theme build on top of Bootstrap 4" name="description" />
-        <meta content="Themesdesign" name="author" />
+        <meta content="ERP by Kolektifindustri.com Built by Dodolantech" name="description" />
+        <meta content="Dodolan Tech" name="author" />
         <link rel="shortcut icon" href="<?=base_url()?>/assets/brand.ico">
 
         <?php loadCss([
@@ -53,7 +53,9 @@
                                     <a class="dropdown-item d-block" href="#"><span class="badge badge-success float-right">11</span><i class="mdi mdi-settings"></i> Settings</a>
                                     <a class="dropdown-item" href="#"><i class="mdi mdi-lock-open-outline"></i> Lock screen</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item text-danger" href="#"><i class="mdi mdi-power text-danger"></i> Logout</a>
+                                    <?= form_open(base_url('site/logout'))  ?>
+                                        <button class="dropdown-item text-danger" type="submit"><i class="mdi mdi-power text-danger"></i> Logout</button>
+                                    <?= form_close() ?>
                                 </div>
                             </div>
                         </li>
@@ -123,10 +125,42 @@
             'js/jquery.slimscroll.js',
             'js/waves.min.js',
             'js/app.js',
+            'plugins/alertify/js/alertify.js'
         ]); ?>
+
+            
+        <?php
+            if ($this->session->flashdata('success') != null) {
+                echo '<script>
+                alertify.success("'.$this->session->flashdata('success').'");
+                </script>';
+            };
+            
+            if ($this->session->flashdata('error') != null) {
+                echo '<script>
+                alertify.error("'.$this->session->flashdata('error').'");
+                </script>';
+            };
+        ?>
+        
 
         <script>
             $(document).ready(function(){
+                var flag = false;
+                $(".deleteData").submit(function(e){
+                    var id = $(this)
+                    if (!flag) {
+                        alertify.confirm("Are you sure want to delete?", function() {
+                            flag = true;
+                            id.submit()
+                        }, function(ev) {
+                            flag = false;
+                            ev.preventDefault();
+                            return false
+                        });
+                        e.preventDefault()
+                    }
+                })
                 $('.pinggiran-buku').click(function(){
                     $('body').toggleClass("enlarged")
                 })

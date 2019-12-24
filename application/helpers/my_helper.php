@@ -60,7 +60,7 @@ function deleteButton($id, $uri)
 {
     
     $form[] = '<input type="hidden" name="delete_id" value="'.$id.'">';
-    return form_open($uri, 'class="d-inline"').implode('', $form).
+    return form_open($uri, 'class="d-inline deleteData" id="deleteData'.$id.'"').implode('', $form).
     '<button type="submit" class="action-btn ab-pink"><span class="fa fa-trash"></span></button> </form>';
 }
 
