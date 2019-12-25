@@ -4,12 +4,13 @@ class Dashboard extends Controller
 {
 
 	public $isDefaultController = true;
-	// public $models = ['AntrianModel']; 
+	public $models = ['VendorModel', 'UsersModel']; 
 
 	public function index()
 	{
-		$this->render('dashboard/index');
-		
+		$this->render('dashboard/index', [
+			
+		]);
 	}
 
 	public function edit($id)
