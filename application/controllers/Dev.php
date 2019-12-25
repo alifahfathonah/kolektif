@@ -1,6 +1,7 @@
 <?php
 
 class Dev extends Controller {
+    public $exclution = true;
 
 	public function index()
 	{
@@ -28,7 +29,6 @@ class Dev extends Controller {
                 $this->createController($class, $modelName);
                 $this->createModel($modelName, $table, $fields, $pk);
                 mkdir("./application/views/".$table);
-                // $this->updateRouter($table,$class);
                 echo "<script>alert('model & controller created')</script>";
             }
             else{
@@ -38,18 +38,7 @@ class Dev extends Controller {
         $this->render('newController');
         
     }
-    public function updateRouter($table, $controller)
-    {
-        $table = str_replace('_', '-', $table);
-        $old = file_get_contents ('./application/config/routes.php');
-        $myfile = fopen('application/config/routes.php', "w") or die("Unable to open file!");
-        fwrite($myfile, $old);
-        $txt = "\n\$route['".$table."'] = '".$controller."';";
-        fwrite($myfile, $txt);
-        fclose($myfile);
-        
-    }
-    public function createController($class, $model)
+    protected function createController($class, $model)
     {
         $myfile = fopen('application/controllers/'.$class.".php", "w") or die("Unable to open file!");
         $txt = "<?php \n";
@@ -64,7 +53,7 @@ class Dev extends Controller {
         fwrite($myfile, $txt);
         fclose($myfile);
     }
-    public function createModel($class, $table, $fields, $pk)
+    protected function createModel($class, $table, $fields, $pk)
     {
         $str_fields = implode(",\n", array_map(function ($entry) {
             return "\t\t['field' => '".$entry['field']."'".",'type' => '".$entry['type']."']";

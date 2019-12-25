@@ -24,26 +24,7 @@
 	<!-- Begin page -->
 	<div class=""></div>
 	<div class="wrapper-page">
-	<div class="container mt-5">
-	<div class="row justify-content-center">
-		<div class="col-lg-12">
-			<div class="">
-				<div class="card-block">
-					<div class="text-center p-3">
-
-						<h1 class="error-page mt-4"><span><?=$status_code ?>!</span></h1>
-						<h4 class="mb-4 mt-5"><?= $heading  ?></h4>
-						<p class="mb-4"><?= $message ?></p>
-						<a href="<?=base_url()?>">Back to safety</a>
-					</div>
-
-				</div>
-			</div>
-
-		</div>
-	</div>
-</div>
-
+		<?php $this->load->view($view, $params); ?>
 	</div>
 
 	<?php loadJs([

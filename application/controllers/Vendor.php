@@ -42,7 +42,8 @@ class Vendor extends Controller
 			}
 			$model->data->attachment = $atch_name;
 			if ($model->validate()) {
-				$model->insert();
+				// $model->insert();
+				dd($model->insert());
 				redirect($this->controllerId.'/index');
 			}
 		}
