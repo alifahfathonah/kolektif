@@ -1,6 +1,6 @@
 <?php
 /**
- * CodeIgniter coba lun
+ * CodeIgniter beremma rah riya
  *
  * An open source application development framework for PHP
  *
