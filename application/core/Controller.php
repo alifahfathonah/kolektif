@@ -19,6 +19,9 @@ class Controller extends CI_Controller
             redirect('site/login');
         }
         if (!$this->forGuest) {
+            if (!isset(roles()[$this->loginInformation()->role])) {
+                forbidden();
+            }
             $this->roles = roles()[$this->loginInformation()->role];
             $this->assignMenus();
             if (!in_array($this->controllerId, $this->roles) && !$this->exclution) {
@@ -77,14 +80,14 @@ class Controller extends CI_Controller
     protected function createItem($str, $icon, $url)
     {
         $item = '<li>
-        <a href="'.$url.'" class="waves-effect"><i class="mdi '.$icon.'"></i><span> '.$str.' </span></a>
+        <a href="'.base_url().$url.'" class="waves-effect"><i class="menu-icon '.$icon.'"></i><span> '.$str.' </span></a>
         </li>';
         return $item;
     }
     protected function createSubItem($str, $icon, $items)
     {
         $item = '<li>
-        <a href="javascript:void(0)" class="waves-effect"><i class="mdi '.$icon.'"></i><span> '.$str.
+        <a href="javascript:void(0)" class="waves-effect"><i class="menu-icon '.$icon.'"></i><span> '.$str.
             '<span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span> </span></a>
             <ul class="submenu">
             '.$items.'

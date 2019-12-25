@@ -74,7 +74,7 @@ class Models extends CI_Model
             $this->db->join($this->joinWith['field'], $this->joinWith['on'], $this->joinWith['type']);
         }
         $query = $this->db->get($this->tableName);
-        $this->data = $query;
+        $this->data = $query->result_object();
         return $query->result_object();
     }
     public function find($id)
@@ -188,7 +188,8 @@ class Models extends CI_Model
             else{
                 $form[] = '
                 <div class="form-group">
-                    <input placeholder="'.strtolower($label).'" type="'.$inputType.'" value="'.$data.'" class="'.$class.'" name="'.$value.'"> 
+                <label>'.$label.'</label>
+                    <input autocomplete="off" placeholder="'.strtolower($label).'" type="'.$inputType.'" value="'.$data.'" class="'.$class.'" name="'.$value.'"> 
                 </div>';
             }
         }
@@ -206,7 +207,6 @@ class Models extends CI_Model
                 }
             }
             else{
-                $key++;
                 if ($key==$data) {
                     $drs[] = '<option selected value="'.$key.'">'.$value.'</option>';
                 }

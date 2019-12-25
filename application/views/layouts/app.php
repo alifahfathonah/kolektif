@@ -14,7 +14,9 @@
             'css/bootstrap.min.css',
             'css/metismenu.min.css',
             'css/icons.css',
-            'css/style.css'
+            'css/style.css',
+            'plugins/select2/select2.css',
+            'plugins/select2/select2-bootrstrap4.min.css',
         ]); ?>
 
     </head>
@@ -116,6 +118,7 @@
             'js/jquery.slimscroll.js',
             'js/waves.min.js',
             'js/app.js',
+            'plugins/select2/select2.min.js',
             'plugins/alertify/js/alertify.js'
         ]); ?>
 
@@ -137,6 +140,7 @@
 
         <script>
             $(document).ready(function(){
+                $('select').select2()
                 var flag = false;
                 $(".deleteData").submit(function(e){
                     var id = $(this)

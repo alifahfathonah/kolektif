@@ -13,10 +13,11 @@ class UsersModel extends Models
     public $nullable = ['name'];
 	public $primaryKey = 'id'; 
 	public const ROLE = [
-		'super' => 0,
+		'admin' => 0,
 		'sales' => 1,
 		'werehouse' => 2,
-		'purchasing' => 3
+		'purchasing' => 3,
+		'super' => 4
 	];
 
 
