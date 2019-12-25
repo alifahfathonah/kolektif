@@ -1,6 +1,9 @@
 <?php
 class ErrorPage extends Controller
 {
+    public $exclution = true;
+    public $layout = 'app';
+    
     public function __construct()
     {
         parent::__construct();

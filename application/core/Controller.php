@@ -7,23 +7,24 @@ class Controller extends CI_Controller
     public $isDefaultController;
     public $layout = 'app';
     public $forGuest = false;    
-    public $asAccess = true;
+    public $exclution = false;
+
     public $roles = ['vendor', 'bfield'];
     
     public function __construct()
     {
         parent::__construct();
-        if (!$this->asAccess) {
-            throw new Exception("Forbidden", 1);
+        $this->controllerId = strtolower(get_class($this));
+        if ((!$this->forGuest) && $this->isGuest()) {
+            redirect('site/login');
         }
         if (!$this->forGuest) {
             $this->roles = roles()[$this->loginInformation()->role];
             $this->assignMenus();
+            if (!in_array($this->controllerId, $this->roles) && !$this->exclution) {
+                forbidden();
+            }
         }
-        if ((!$this->forGuest) && $this->isGuest()) {
-            redirect('site/login');
-        }
-        $this->controllerId = strtolower(get_class($this));
         $this->load->model($this->models);
     }
     protected function loginInformation(){
