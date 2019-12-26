@@ -82,6 +82,59 @@ function serializeTable($model, Array $config = [])
         $label = ucwords(str_replace('_', ' ', $label_raw));
         $ths[] = '<th>'.$label.'</th>';
     }
+
+    foreach ($model as $key => $value) {
+        $index = $key+1;
+        $action_btn = $action ? actionColoumn($action, isset($config['uri']) ? $config['uri'] : null, $value->id) : '';
+        foreach ($columns as $key2 => $value2) {
+            $template = isset($value2['template']) ? $value2['template'] : null;
+            if (is_array($value2)) {
+                $value2 = $value2['attribute'];
+            }
+            $col_value = $value->$value2;
+            if ($template!=null) {
+                $col_value = getFormat($template, $col_value);
+            }
+            $rows[$key2] = '<td>'.$col_value.'</td>';
+        }
+        $row = implode("\n", $rows);
+        $trs[] = "<tr><td>".$index."</td>".$row.$action_btn."</tr>";
+    }
+    $th = implode("\n", $ths);
+    $tr = isset($trs) ? implode("\n", $trs) : '';
+    echo '
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th style="width: 70px">No</th>
+                '.$th.$actionLabel.'
+                
+            </tr>
+        </thead>
+        <tbody>
+        '.$tr.'
+        </tbody>
+    </table>
+    ';
+}
+function serializeTable1($model, Array $config = [])
+{
+    $label = "Label";
+    $action = isset($config['action']) ? $config['action'] : ['edit'];
+    $columns = $config['columns'];
+    $actionLabel = $action ? '<th style="width: 100px"></th>' : '';
+
+    foreach ($columns as $key => $value) {
+        if (is_array($value)) {
+            $label_raw = $value['label'];
+        }
+        else{
+            $label_raw = $value;
+        }
+        $label = ucwords(str_replace('_', ' ', $label_raw));
+        $ths[] = '<th>'.$label.'</th>';
+    }
+    
     foreach ($model as $key => $value) {
         $index = $key+1;
         $action_btn = $action ? actionColoumn($action, isset($config['uri']) ? $config['uri'] : null, $value->id) : '';
