@@ -1,12 +1,9 @@
 <?php 
 class Vendor extends Controller 
 {
-	public $models = ['VendorModel']; 
+	public $models = ['VendorModel', 'Upload', 'BusinessFieldModel']; 
 	public function index()
 	{
-<<<<<<< HEAD
-		echo 'hello Vendor';
-=======
 		$model = new VendorModel();
 		$model->select(['vendor.*', 'business_field.name as nameBf']);
 		$model->joinWith('business_field', 'business_field.id = vendor.field_id');
@@ -80,6 +77,5 @@ class Vendor extends Controller
 			'dropdown_list' => $dropdown_list
 		]);
 		
->>>>>>> 7d6aa8c25dcfb6fd0f4111f17cb5b383cd759bfa
 	}
 } 

@@ -10,15 +10,11 @@
 							'columns' => [
 								'product_name',
 								'description',
-<<<<<<< HEAD
-                                'image',
-=======
                                 [
 									'attribute' => 'image',
 									'label' => 'Image',
 									'template' => '<img style="width: 100px" src="'.base_url('uploads/').'{value}">'
 								],
->>>>>>> 7d6aa8c25dcfb6fd0f4111f17cb5b383cd759bfa
                                 'retail_price',
 								'brand',
 								'uom_id',
