@@ -13,6 +13,5 @@ class VendorModel extends Models
 		['field' => 'address','type' => 'string'],
 		['field' => 'attachment','type' => 'string']
 	];
-	public $nullable = ['field_id', 'attachment'];
 	public $primaryKey = 'id'; 
 } 

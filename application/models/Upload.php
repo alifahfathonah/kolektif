@@ -12,8 +12,8 @@ class Upload extends CI_Model
         $this->config['upload_path'] = './uploads/';
         $this->config['allowed_types'] = $this->allowedType;
         $this->config['max_size'] = 2000;
-        $this->config['max_width'] = 1500;
-        $this->config['max_height'] = 1500;
+        $this->config['max_width'] = 15000;
+        $this->config['max_height'] = 15000;
         $this->load->library('upload', $this->config);
     }
     public function setAllowedType($var)
