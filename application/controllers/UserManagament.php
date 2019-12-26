@@ -62,4 +62,30 @@ class UserManagament extends Controller
             'dropdown_list' => $dropdown_list
         ]);
     }
+
+    public function setting()
+    {
+        $user = $this->loginInformation();
+        $model = new UsersModel($user->id);
+        $oldPwd = $model->password;
+
+        if ($this->input->post()!=null) {
+            $model->setAttributes($this->input->post());
+            if ($this->input->post('password') != null) {
+                $model->setPassword($this->input->post('password'));
+            }
+            else{
+                $model->data->password = $oldPwd;
+            }
+            if ($model->validate()) {
+                $model->update();
+                redirect('');
+            }
+        }
+        
+        $model->data->password = '';
+        $this->render('user-man/profile', [
+            'model' => $model
+        ]);
+    }
 }
