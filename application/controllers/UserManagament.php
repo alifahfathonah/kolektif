@@ -8,7 +8,7 @@ class UserManagament extends Controller
         $dataProvider = $model->findAll();
         // dd($dataProvider);
         foreach ($dataProvider as $key => $value) {
-            $roles = array_flip(UsersModel::ROLE);
+            $roles = array_flip($model->role);
             $value->role = $roles[$value->role];
         }
         $this->render('user-man/index', [
@@ -26,7 +26,7 @@ class UserManagament extends Controller
                 redirect('usermanagament');
             }
         }
-        foreach (UsersModel::ROLE as $key => $value) {
+        foreach ($model->role as $key => $value) {
             $dropdown_list[$value] = $key;
         }
         // dd($dropdown_list);
@@ -52,7 +52,7 @@ class UserManagament extends Controller
                 redirect('usermanagament');
             }
         }
-        foreach (UsersModel::ROLE as $key => $value) {
+        foreach ($model->role as $key => $value) {
             $dropdown_list[$value] = $key;
         }
         // dd($dropdown_list);

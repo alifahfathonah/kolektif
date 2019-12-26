@@ -15,7 +15,7 @@ class VendorModel extends Models
 	];
 	public $nullable = ['field_id', 'attachment'];
 	public $primaryKey = 'id'; 
-    public const STATUS=[
+    public $status=[
 		'draft' => 0,
 		'accepted' => 1
 	];
