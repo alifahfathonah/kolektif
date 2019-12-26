@@ -137,6 +137,9 @@
 
         <script>
             $(document).ready(function(){
+                $('.parsley-error').change(function(){
+                    $(this).removeClass("parsley-error")
+                })
                 $('select').select2()
                 var flag = false;
                 $(".deleteData").submit(function(e){

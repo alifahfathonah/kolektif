@@ -11,7 +11,7 @@
 								'name',
 								[
 									'label' => 'Business Field',
-									'attribute' => 'nameBf'
+									'attribute' => 'nameBf',
 								],
                                 'npwp',
                                 'contact',

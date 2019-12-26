@@ -33,7 +33,7 @@ class Models extends CI_Model
             $this->data->$value = isset($data) ? $data->$value : null;
             $this->datatype[$value] = $type;
         }
-        // array_push($this->nullable, 'created_date', 'updated_date');
+        array_push($this->nullable, 'created_date', 'updated_date');
     }
     public function beforeInsert()
     {
@@ -141,7 +141,7 @@ class Models extends CI_Model
     {
         $nullable = array_flip($this->nullable);
         foreach ($this->data as $key => $value) {
-            if (isset($nullable[$key])) {
+            if (!isset($nullable[$key])) {
                 if (isset($this->datatype[$key])) {
                     if ($this->datatype[$key] == 'int' && !is_numeric($value)) {
                         $this->session->set_flashdata('error', 'Check your data');
@@ -166,10 +166,13 @@ class Models extends CI_Model
         foreach ($columns as $key => $value) {
             $inputType = isset($value['inputType']) ? $value['inputType'] : 'text';
             $label = isset($value['label']) ? $value['label'] : null;
+            $tip = isset($value['tip']) ? '('.$value['tip'].')' : null;
+
             $dropDownContent = isset($value['content']) ? $value['content'] : null;
             if (is_array($value)) {
                 $value = $value['field'];
             }
+            $field_errors = isset($this->errors[$value]) ? "parsley-error" : null;
             
             $label = $label == null ? ucwords(str_replace('_', ' ', $value)) : $label;
 
@@ -182,17 +185,19 @@ class Models extends CI_Model
                 $form[] = '
                 <div class="form-group">
                     <label>'.$label.'</label>
+                    <small class="text-muted">'.$tip.'</small>
                     <select name="'.$value.'" class="'.$class.'">
-                         <option value="null" disabled selected>--Pilih '.$label.'--</option>
                         '.$dropdown.'
-                    </select> 
+                    </select>
                 </div>';
             }
             else{
                 $form[] = '
                 <div class="form-group">
-                <label>'.$label.'</label>
-                    <input autocomplete="off" placeholder="'.strtolower($label).'" type="'.$inputType.'" value="'.$data.'" class="'.$class.'" name="'.$value.'"> 
+                    <label>'.$label.'</label>
+                    <small class="text-muted">'.$tip.'</small>
+                    <input autocomplete="off" placeholder="'.strtolower($label).'" type="'.$inputType.'" 
+                    value="'.$data.'" class="'.$class.' '.$field_errors.'" name="'.$value.'"> 
                 </div>';
             }
         }
@@ -201,6 +206,7 @@ class Models extends CI_Model
     }
     public function createDropdown(Array $dropdown, $data)
     {
+        $drs = [];
         foreach ($dropdown as $key => $value) {
             if (is_array($value)) {
                 if ($value['value']==$data) {

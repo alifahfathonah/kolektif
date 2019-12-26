@@ -38,6 +38,7 @@ class Vendor extends Controller
 				$atch_name = $upload->getFileName();
 			}
 			else{
+				$model->errors['attachment'] = $upload->errors;
 				$atch_name = null;
 			}
 			$model->data->attachment = $atch_name;
