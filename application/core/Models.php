@@ -39,18 +39,12 @@ class Models extends CI_Model
     public function beforeInsert()
     {
         $this->data->created_date = date("Y-m-d H:i:s");
-<<<<<<< HEAD
-=======
         $this->session->set_flashdata('success', 'Data successsfully saved');
->>>>>>> 1684bc7bec46c57feb7a98061e0396fba7b42962
     }
     public function beforeUpdate()
     {
         $this->data->updated_date = date("Y-m-d H:i:s");
-<<<<<<< HEAD
-=======
         $this->session->set_flashdata('success', 'Data successsfully saved');
->>>>>>> 1684bc7bec46c57feb7a98061e0396fba7b42962
     }
     public function rawQuery($query)
     {
