@@ -30,8 +30,8 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `business_field` (
   `id` int(11) NOT NULL,
-  `create_date` datetime DEFAULT NULL,
-  `update_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `created_date` datetime DEFAULT NULL,
+  `updated_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `name` varchar(128) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -39,7 +39,7 @@ CREATE TABLE `business_field` (
 -- Dumping data for table `business_field`
 --
 
-INSERT INTO `business_field` (`id`, `create_date`, `update_date`, `name`) VALUES
+INSERT INTO `business_field` (`id`, `created_date`, `updated_date`, `name`) VALUES
 (1, '0000-00-00 00:00:00', '2019-12-23 08:35:00', 'Bolpoin'),
 (2, '0000-00-00 00:00:00', '2019-12-23 08:35:00', 'Kertas'),
 (3, NULL, '2019-12-23 08:35:33', 'Sepeda');
@@ -52,8 +52,8 @@ INSERT INTO `business_field` (`id`, `create_date`, `update_date`, `name`) VALUES
 
 CREATE TABLE `kwitansi` (
   `id` int(11) NOT NULL,
-  `create_date` datetime NOT NULL,
-  `update_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `created_date` datetime NOT NULL,
+  `updated_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `source_id` int(11) NOT NULL,
   `is_bill` tinyint(1) NOT NULL,
   `file` varchar(128) DEFAULT NULL,
@@ -72,8 +72,8 @@ CREATE TABLE `kwitansi` (
 
 CREATE TABLE `payment` (
   `id` int(11) NOT NULL,
-  `create_date` datetime NOT NULL,
-  `update_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `created_date` datetime NOT NULL,
+  `updated_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `kwitansi_id` int(11) NOT NULL,
   `name` varchar(64) NOT NULL,
   `file` varchar(128) DEFAULT NULL
@@ -87,8 +87,8 @@ CREATE TABLE `payment` (
 
 CREATE TABLE `po_line` (
   `id` int(11) NOT NULL,
-  `create_date` datetime NOT NULL,
-  `update_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `created_date` datetime NOT NULL,
+  `updated_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `purchase_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `qty` int(11) NOT NULL
@@ -102,7 +102,7 @@ CREATE TABLE `po_line` (
 
 CREATE TABLE `product` (
   `id` int(11) NOT NULL,
-  `create_date` datetime NOT NULL,
+  `created_date` datetime NOT NULL,
   `update_create` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `product_sku` varchar(32) DEFAULT NULL,
   `product_name` varchar(128) DEFAULT NULL,
@@ -122,8 +122,8 @@ CREATE TABLE `product` (
 
 CREATE TABLE `purchase_order` (
   `id` int(11) NOT NULL,
-  `create_date` datetime NOT NULL,
-  `update_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `created_date` datetime NOT NULL,
+  `updated_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `name` varchar(64) NOT NULL,
   `vendor_id` int(11) NOT NULL,
   `state` int(11) NOT NULL DEFAULT 0
@@ -137,8 +137,8 @@ CREATE TABLE `purchase_order` (
 
 CREATE TABLE `sale_order` (
   `id` int(11) NOT NULL,
-  `create_date` datetime NOT NULL,
-  `update_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `created_date` datetime NOT NULL,
+  `updated_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `customer_id` int(11) NOT NULL,
   `total_price` float NOT NULL,
   `state` int(11) NOT NULL
@@ -152,8 +152,8 @@ CREATE TABLE `sale_order` (
 
 CREATE TABLE `so_line` (
   `id` int(11) NOT NULL,
-  `create_date` datetime NOT NULL,
-  `update_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `created_date` datetime NOT NULL,
+  `updated_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `sale_id` int(11) NOT NULL,
   `discount` float DEFAULT NULL,
   `product_id` int(11) NOT NULL,
@@ -168,8 +168,8 @@ CREATE TABLE `so_line` (
 
 CREATE TABLE `vendor` (
   `id` int(11) NOT NULL,
-  `create_date` datetime NOT NULL,
-  `update_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `created_date` datetime NOT NULL,
+  `updated_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `name` varchar(128) NOT NULL,
   `field_id` int(11) NOT NULL,
   `npwp` char(16) DEFAULT NULL,
@@ -183,7 +183,7 @@ CREATE TABLE `vendor` (
 -- Dumping data for table `vendor`
 --
 
-INSERT INTO `vendor` (`id`, `create_date`, `update_date`, `name`, `field_id`, `npwp`, `contact`, `account_number`, `address`, `attachment`) VALUES
+INSERT INTO `vendor` (`id`, `created_date`, `updated_date`, `name`, `field_id`, `npwp`, `contact`, `account_number`, `address`, `attachment`) VALUES
 (7, '2019-12-23 16:42:32', '2019-12-23 09:42:32', 'Aligasi', 3, '9827891789', '08838278', '83977838', 'Jl. Keputih 3C nomor 50B', '121.PNG'),
 (8, '2019-12-23 15:39:26', '2019-12-23 08:39:26', 'Tjiwi Kimia', 1, '5235625635', '0899384983', '9384834789', 'Jl. Keputih 3C nomor 50B', '23.PNG');
 
