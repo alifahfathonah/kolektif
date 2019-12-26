@@ -192,13 +192,10 @@ class Models extends CI_Model
             else{
                 $form[] = '
                 <div class="form-group">
-<<<<<<< HEAD
                 <label>'.$label.'</label>
                     <input autocomplete="off" placeholder="'.strtolower($label).'" type="'.$inputType.'" value="'.$data.'" class="'.$class.'" name="'.$value.'"> 
-=======
                     <label>'.$label.'</label>
                     <input placeholder="'.strtolower($label).'" type="'.$inputType.'" value="'.$data.'" class="'.$class.'" name="'.$value.'"> 
->>>>>>> 8cdf20aac4ef38add504fc64a0945ad5ae5fa1ea
                 </div>';
             }
         }
