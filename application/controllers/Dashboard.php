@@ -4,7 +4,7 @@ class Dashboard extends Controller
 {
 
 	public $isDefaultController = true;
-	public $models = ['VendorModel', 'UsersModel']; 
+	public $models = ['UsersModel']; 
 
 	public function index()
 	{
