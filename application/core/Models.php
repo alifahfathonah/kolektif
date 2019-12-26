@@ -46,13 +46,17 @@ class Models extends CI_Model
         $this->data->updated_date = date("Y-m-d H:i:s");
         $this->session->set_flashdata('success', 'Data successsfully saved');
     }
-    public function rawQuery(String $query)
+    public function rawQuery($query)
     {
         return $this->db->query($query)->result_object();
     }
     public function select(Array $select)
     {
         return $this->db->select($select);
+    }
+    public function where($column, $val)
+    {
+        return $this->db->where($column, $val);
     }
     public function groupBy(Array $group)
     {
@@ -170,9 +174,9 @@ class Models extends CI_Model
             
             $label = $label == null ? ucwords(str_replace('_', ' ', $value)) : $label;
 
-            if (!isset($this->datatype[$value])) {
-                return 'column not valid';
-            }
+            // if (!isset($this->datatype[$value])) {
+            //     return 'column not valid';
+            // }
             $data = isset($this->data->$value) ?$this->data->$value : '';
             if ($inputType == 'dropdown') {
                 $dropdown = $this->createDropdown($dropDownContent, $data);
@@ -188,8 +192,13 @@ class Models extends CI_Model
             else{
                 $form[] = '
                 <div class="form-group">
+<<<<<<< HEAD
                 <label>'.$label.'</label>
                     <input autocomplete="off" placeholder="'.strtolower($label).'" type="'.$inputType.'" value="'.$data.'" class="'.$class.'" name="'.$value.'"> 
+=======
+                    <label>'.$label.'</label>
+                    <input placeholder="'.strtolower($label).'" type="'.$inputType.'" value="'.$data.'" class="'.$class.'" name="'.$value.'"> 
+>>>>>>> 8cdf20aac4ef38add504fc64a0945ad5ae5fa1ea
                 </div>';
             }
         }
