@@ -14,8 +14,14 @@ class Customer extends Controller
 	public function delete()
 	{
 		$id = $this->input->post('delete_id');
-		$model = new VendorModel($id);
-		redirect($this->controllerId.'/index');
+		$model = new CustomerModel($id);
+		try {
+			$model->remove();
+			// redirect($this->controllerId.'/index/'.$type);
+			redirect($_SERVER['HTTP_REFERER']);
+		} catch (\Throwable $th) {
+			dd($model->errors);
+		}
 	}
 
 	public function create()
@@ -36,7 +42,7 @@ class Customer extends Controller
 	}
 	public function edit($id)
 	{
-		$model = new VendorModel($id);
+		$model = new CustomerModel($id);
 
 		if ($this->input->post()!= null) {
 			$model->setAttributes($this->input->post());
@@ -46,8 +52,7 @@ class Customer extends Controller
 			}
 		}
 		$this->render('customer/form', [
-			'model' => $model,
-			'dropdown_list' => $dropdown_list
+			'model' => $model
 		]);
 		
 	}

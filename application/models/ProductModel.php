@@ -4,7 +4,7 @@ class ProductModel extends Models
 	public $tableName = 'product';
 	public $columns = [
 		['field' => 'created_date','type' => 'string'],
-		['field' => 'update_create','type' => 'string'],
+		['field' => 'updated_date','type' => 'string'],
 		['field' => 'product_sku','type' => 'string'],
 		['field' => 'product_name','type' => 'string'],
 		['field' => 'image','type' => 'string'],
@@ -14,5 +14,6 @@ class ProductModel extends Models
 		['field' => 'on_hand','type' => 'int'],
 		['field' => 'description','type' => 'string']
 	];
-	public $primaryKey = 'id'; 
+	public $primaryKey = 'id';
+	public $mandatory = ['product_name', 'uom_id'];
 } 
