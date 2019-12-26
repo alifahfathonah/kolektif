@@ -6,7 +6,7 @@ class Models extends CI_Model
     public $columns = [null];
     public $primaryKey = 'id';
     public $data;
-    public $nullable = [];
+    public $mandatory = [];
     public $errors = [];
     public $datatype = [];
 
@@ -33,7 +33,6 @@ class Models extends CI_Model
             $this->data->$value = isset($data) ? $data->$value : null;
             $this->datatype[$value] = $type;
         }
-        array_push($this->nullable, 'created_date', 'updated_date');
     }
     public function beforeInsert()
     {
@@ -139,9 +138,9 @@ class Models extends CI_Model
 
     public function validate()
     {
-        $nullable = array_flip($this->nullable);
+        $mandatory = array_flip($this->mandatory);
         foreach ($this->data as $key => $value) {
-            if (!isset($nullable[$key])) {
+            if (isset($mandatory[$key])) {
                 if (isset($this->datatype[$key])) {
                     if ($this->datatype[$key] == 'int' && !is_numeric($value)) {
                         $this->session->set_flashdata('error', 'Check your data');
