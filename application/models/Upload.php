@@ -24,8 +24,6 @@ class Upload extends CI_Model
     {
         if (!$this->upload->do_upload($file)) {
             $this->errors = $this->upload->display_errors();
-            echo $this->upload->display_errors();
-            exit;
             return false;
         }
         $this->data = (object) $this->upload->data();
