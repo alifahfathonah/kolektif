@@ -19,17 +19,17 @@ function menus()
         ],
         "vendor" => [
             "menu" => 'Vendor', 
-            'icon' => "mdi mdi-monitor-dashboard", 
+            'icon' => "ti-shopping-cart", 
             "url" => "vendor"
         ],
         "product" => [
             "menu" => 'Product', 
-            'icon' => "mdi mdi-monitor-dashboard", 
+            'icon' => "ti-briefcase", 
             "url" => "product"
         ],
         "customer" => [
             "menu" => 'Customer', 
-            'icon' => "mdi mdi-monitor-dashboard", 
+            'icon' => "ti-user", 
             "url" => "customer"
         ],
         "businessfield" => [
@@ -42,7 +42,7 @@ function menus()
         ],
         "usermanagament" => [
             "menu" => 'User Managament', 
-            'icon' => "ti-user", 
+            'icon' => "ti-settings", 
             'child' => [
                 ["menu" => 'All User', "url" => "usermanagament"], // << if has child
                 ["menu" => 'Create User', "url" => "usermanagament/create"], 
