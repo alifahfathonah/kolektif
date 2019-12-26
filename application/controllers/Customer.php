@@ -7,12 +7,18 @@ class Customer extends Controller
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+=======
+>>>>>>> c6567c15c7e69d012af383efda9828ea03dce492
+<<<<<<< HEAD
 		echo 'hello Customer';
 =======
 =======
 >>>>>>> ede00bbdebb2c51b0514ae9484fa781e21e43be0
+<<<<<<< HEAD
 =======
 >>>>>>> 7d6aa8c25dcfb6fd0f4111f17cb5b383cd759bfa
+=======
+>>>>>>> c6567c15c7e69d012af383efda9828ea03dce492
 		$model = new CustomerModel();
 		$dataProvider = $model->findAll();
 		$this->render('customer/index', [
@@ -102,7 +108,10 @@ class Customer extends Controller
 =======
 		
 >>>>>>> ede00bbdebb2c51b0514ae9484fa781e21e43be0
+<<<<<<< HEAD
 =======
 >>>>>>> 7d6aa8c25dcfb6fd0f4111f17cb5b383cd759bfa
+=======
+>>>>>>> c6567c15c7e69d012af383efda9828ea03dce492
 	}
 }

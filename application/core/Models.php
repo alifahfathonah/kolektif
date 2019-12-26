@@ -33,13 +33,7 @@ class Models extends CI_Model
             $this->data->$value = isset($data) ? $data->$value : null;
             $this->datatype[$value] = $type;
         }
-<<<<<<< HEAD
-<<<<<<< HEAD
-        // array_push($this->nullable, 'created_date', 'updated_date');
-=======
->>>>>>> ede00bbdebb2c51b0514ae9484fa781e21e43be0
-=======
->>>>>>> 7d6aa8c25dcfb6fd0f4111f17cb5b383cd759bfa
+
     }
     public function beforeInsert()
     {
@@ -147,15 +141,8 @@ class Models extends CI_Model
     {
         $mandatory = array_flip($this->mandatory);
         foreach ($this->data as $key => $value) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-            if (isset($nullable[$key])) {
-=======
             if (isset($mandatory[$key])) {
->>>>>>> ede00bbdebb2c51b0514ae9484fa781e21e43be0
-=======
-            if (isset($mandatory[$key])) {
->>>>>>> 7d6aa8c25dcfb6fd0f4111f17cb5b383cd759bfa
+
                 if (isset($this->datatype[$key])) {
                     if ($this->datatype[$key] == 'int' && !is_numeric($value)) {
                         $this->session->set_flashdata('error', 'Check your data');
