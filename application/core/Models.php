@@ -33,7 +33,7 @@ class Models extends CI_Model
             $this->data->$value = isset($data) ? $data->$value : null;
             $this->datatype[$value] = $type;
         }
-        array_push($this->nullable, 'created_date', 'updated_date');
+        array_push($this->nullable, 'create_date', 'update_date');
     }
     public function beforeInsert()
     {
