@@ -22,6 +22,7 @@ function dd($data)
 }
 function d($data)
 {
+    $data = json_encode($data, JSON_PRETTY_PRINT);
     echo "<pre style='color: red; margin: 30px; background-color: #dbdbdb; padding: 20px'>";
     print_r($data);
     echo "</pre>";
@@ -85,10 +86,15 @@ function serializeTable($model, Array $config = [])
         $index = $key+1;
         $action_btn = $action ? actionColoumn($action, isset($config['uri']) ? $config['uri'] : null, $value->id) : '';
         foreach ($columns as $key2 => $value2) {
+            $template = isset($value2['template']) ? $value2['template'] : null;
             if (is_array($value2)) {
                 $value2 = $value2['attribute'];
             }
-            $rows[$key2] = '<td>'.$value->$value2.'</td>';
+            $col_value = $value->$value2;
+            if ($template!=null) {
+                $col_value = getFormat($template, $col_value);
+            }
+            $rows[$key2] = '<td>'.$col_value.'</td>';
         }
         $row = implode("\n", $rows);
         $trs[] = "<tr><td>".$index."</td>".$row.$action_btn."</tr>";
@@ -110,5 +116,9 @@ function serializeTable($model, Array $config = [])
     </table>
     ';
 }
-
+function getFormat($str, $val=null){
+    $new_str = explode('{value}', $str);
+    $str_final = $new_str[0].$val.$new_str[1];
+    return $str_final;
+}
 ?>

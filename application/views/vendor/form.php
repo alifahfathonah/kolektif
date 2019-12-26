@@ -9,10 +9,13 @@
 						[
 							'field' => 'field_id', 
 							'inputType' => 'dropdown', 
-							'label' => 'Field',
+							'label' => 'Business Field',
 							'content' => $dropdown_list,
 						],
-						['field' => 'attachment', 'inputType' => 'file']]
+						[
+							'field' => 'attachment', 'inputType' => 'file' 
+						]
+					]
 				]) ?>
 			</div>
 		</div>
