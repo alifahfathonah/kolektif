@@ -35,19 +35,23 @@ class Models extends CI_Model
     }
     public function beforeInsert()
     {
-        $this->data->create_date = date("Y-m-d H:i:s");
+        $this->data->created_date = date("Y-m-d H:i:s");
     }
     public function beforeUpdate()
     {
-        $this->data->update_date = date("Y-m-d H:i:s");
+        $this->data->updated_date = date("Y-m-d H:i:s");
     }
-    public function rawQuery(String $query)
+    public function rawQuery($query)
     {
         return $this->db->query($query)->result_object();
     }
     public function select(Array $select)
     {
         return $this->db->select($select);
+    }
+    public function where($column, $val)
+    {
+        return $this->db->where($column, $val);
     }
     public function groupBy(Array $group)
     {
@@ -159,9 +163,9 @@ class Models extends CI_Model
             
             $label = $label == null ? ucwords(str_replace('_', ' ', $value)) : $label;
 
-            if (!isset($this->datatype[$value])) {
-                return 'column not valid';
-            }
+            // if (!isset($this->datatype[$value])) {
+            //     return 'column not valid';
+            // }
             $data = isset($this->data->$value) ?$this->data->$value : '';
             if ($inputType == 'dropdown') {
                 $dropdown = $this->createDropdown($dropDownContent, $data);
@@ -177,6 +181,7 @@ class Models extends CI_Model
             else{
                 $form[] = '
                 <div class="form-group">
+                    <label>'.$label.'</label>
                     <input placeholder="'.strtolower($label).'" type="'.$inputType.'" value="'.$data.'" class="'.$class.'" name="'.$value.'"> 
                 </div>';
             }
