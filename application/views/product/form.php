@@ -9,7 +9,6 @@
                         'product_name',
 						'description',
 						['field' => 'image', 'inputType' => 'file'],
-						'retail_price',
 						'brand',
 						[
 							'field' => 'uom_id', 

@@ -15,8 +15,7 @@
 									'label' => 'Image',
 									'template' => '<img style="width: 100px" src="'.base_url('uploads/').'{value}">'
 								],
-                                'retail_price',
-								'brand',
+                                'brand',
 								'uom_id',
 								'on_hand',
 							],
