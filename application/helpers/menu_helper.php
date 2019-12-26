@@ -22,6 +22,11 @@ function menus()
             'icon' => "mdi mdi-monitor-dashboard", 
             "url" => "vendor"
         ],
+        "customer" => [
+            "menu" => 'Customer', 
+            'icon' => "mdi mdi-monitor-dashboard", 
+            "url" => "customer"
+        ],
         "businessfield" => [
             "menu" => 'Business Fields', 
             'icon' => "mdi mdi-monitor-dashboard", 
@@ -43,7 +48,7 @@ function menus()
 function roles()
 {
     return [
-		0 => ['vendor', 'businessfield', 'dashboard', 'usermanagament'],
+		0 => ['vendor', 'businessfield', 'dashboard', 'usermanagament', 'customer'],
 		1 => ['vendor', 'dashboard'],
 		2 => ['businessfield', 'dashboard'],
 		3 => ['dashboard'],

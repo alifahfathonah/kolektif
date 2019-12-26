@@ -193,11 +193,10 @@ class Models extends CI_Model
                 <div class="form-group">
                 <label>'.$label.'</label>
                     <input autocomplete="off" placeholder="'.strtolower($label).'" type="'.$inputType.'" value="'.$data.'" class="'.$class.'" name="'.$value.'"> 
-                    <label>'.$label.'</label>
-                    <input placeholder="'.strtolower($label).'" type="'.$inputType.'" value="'.$data.'" class="'.$class.'" name="'.$value.'"> 
                 </div>';
             }
         }
+        // dd($form);
         return form_open_multipart($action).implode('', $form).'<input type="submit" class="btn btn-success" value="Submit"> </form>';
     }
     public function createDropdown(Array $dropdown, $data)
