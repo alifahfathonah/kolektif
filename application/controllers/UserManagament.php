@@ -6,9 +6,9 @@ class UserManagament extends Controller
     {
         $model = new UsersModel();
         $dataProvider = $model->findAll();
-        // dd($dataProvider);
+        // dd($model->roles);
         foreach ($dataProvider as $key => $value) {
-            $roles = array_flip($model->role);
+            $roles = array_flip($model->roles);
             $value->role = $roles[$value->role];
         }
         $this->render('user-man/index', [
@@ -26,7 +26,7 @@ class UserManagament extends Controller
                 redirect('usermanagament');
             }
         }
-        foreach ($model->role as $key => $value) {
+        foreach ($model->roles as $key => $value) {
             $dropdown_list[$value] = $key;
         }
         // dd($dropdown_list);
@@ -52,7 +52,7 @@ class UserManagament extends Controller
                 redirect('usermanagament');
             }
         }
-        foreach ($model->role as $key => $value) {
+        foreach ($model->roles as $key => $value) {
             $dropdown_list[$value] = $key;
         }
         // dd($dropdown_list);
@@ -60,6 +60,32 @@ class UserManagament extends Controller
         $this->render('user-man/form', [
             'model' => $model,
             'dropdown_list' => $dropdown_list
+        ]);
+    }
+
+    public function setting()
+    {
+        $user = $this->loginInformation();
+        $model = new UsersModel($user->id);
+        $oldPwd = $model->password;
+
+        if ($this->input->post()!=null) {
+            $model->setAttributes($this->input->post());
+            if ($this->input->post('password') != null) {
+                $model->setPassword($this->input->post('password'));
+            }
+            else{
+                $model->data->password = $oldPwd;
+            }
+            if ($model->validate()) {
+                $model->update();
+                redirect('');
+            }
+        }
+        
+        $model->data->password = '';
+        $this->render('user-man/profile', [
+            'model' => $model
         ]);
     }
 }

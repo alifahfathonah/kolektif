@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 23, 2019 at 11:02 AM
+-- Generation Time: Dec 26, 2019 at 10:05 AM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.3.8
 
@@ -43,6 +43,30 @@ INSERT INTO `business_field` (`id`, `created_date`, `updated_date`, `name`) VALU
 (1, '0000-00-00 00:00:00', '2019-12-23 08:35:00', 'Bolpoin'),
 (2, '0000-00-00 00:00:00', '2019-12-23 08:35:00', 'Kertas'),
 (3, NULL, '2019-12-23 08:35:33', 'Sepeda');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customer`
+--
+
+CREATE TABLE `customer` (
+  `id` int(11) NOT NULL,
+  `created_date` datetime NOT NULL,
+  `updated_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `name` varchar(128) NOT NULL,
+  `contact` varchar(64) DEFAULT NULL,
+  `address` varchar(512) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `customer`
+--
+
+INSERT INTO `customer` (`id`, `created_date`, `updated_date`, `name`, `contact`, `address`) VALUES
+(1, '2019-12-26 13:59:53', '2019-12-26 07:02:21', 'Muhammad khotib2', '0998899', 'Jl. Prof Dr. Supomo no30A, Umbulharjo, PT. Docotel Branch 3 Jogja'),
+(3, '2019-12-26 15:35:39', '2019-12-26 08:35:39', 'Haha', '121121', 'Jl. Keputih 3C nomor 50B'),
+(4, '2019-12-26 15:36:31', '2019-12-26 08:36:37', 'asas', '1222', 'asas');
 
 -- --------------------------------------------------------
 
@@ -163,13 +187,51 @@ CREATE TABLE `so_line` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `uom`
+--
+
+CREATE TABLE `uom` (
+  `id` int(11) NOT NULL,
+  `create_date` datetime NOT NULL,
+  `update_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `name` varchar(32) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `name` varchar(128) DEFAULT NULL,
+  `username` varchar(128) NOT NULL,
+  `password` varchar(128) NOT NULL,
+  `role` int(11) NOT NULL DEFAULT 0,
+  `created_date` datetime DEFAULT NULL,
+  `updated_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `username`, `password`, `role`, `created_date`, `updated_date`) VALUES
+(1, 'Muhammad khotib', 'admin', '$2y$10$1wpMLeQ.crH5QvnRfB7aEu.TNCO3DAIeeWROdaCjjNPwgBaL9U/DK', 0, '2019-12-24 11:22:51', '2019-12-26 07:09:57'),
+(2, 'Sales User', 'sales', '$2y$10$a/hjcSI5222OD2cTKL9cnOsos7dbiBgx9VYGtsm/GD78tuG5l5nXO', 1, '2019-12-25 01:05:57', '2019-12-24 18:05:57'),
+(3, 'pur', 'purchasing', '$2y$10$oJ4ApCeVkImGFo0N77U33OlXQYQM71WfETC8qAZzNYIAEz1VR8mn.', 3, '2019-12-25 17:43:58', '2019-12-25 11:08:13');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `vendor`
 --
 
 CREATE TABLE `vendor` (
   `id` int(11) NOT NULL,
   `created_date` datetime NOT NULL,
-  `updated_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `updated_date` timestamp NOT NULL DEFAULT current_timestamp(),
   `name` varchar(128) NOT NULL,
   `field_id` int(11) NOT NULL,
   `npwp` char(16) DEFAULT NULL,
@@ -184,8 +246,10 @@ CREATE TABLE `vendor` (
 --
 
 INSERT INTO `vendor` (`id`, `created_date`, `updated_date`, `name`, `field_id`, `npwp`, `contact`, `account_number`, `address`, `attachment`) VALUES
-(7, '2019-12-23 16:42:32', '2019-12-23 09:42:32', 'Aligasi', 3, '9827891789', '08838278', '83977838', 'Jl. Keputih 3C nomor 50B', '121.PNG'),
-(8, '2019-12-23 15:39:26', '2019-12-23 08:39:26', 'Tjiwi Kimia', 1, '5235625635', '0899384983', '9384834789', 'Jl. Keputih 3C nomor 50B', '23.PNG');
+(17, '2019-12-24 12:58:42', '2019-12-24 06:00:16', 'Muhammad Khotib', 2, '9827891789', '0838383838', '8793879', 'Jl. Keputih 3C nomor 50B', NULL),
+(18, '2019-12-24 15:01:05', '2019-12-24 08:01:05', 'Administrator', 1, '1256612787', '0838383838', '8793879', 'Jl. Keputih 3C nomor 50B', NULL),
+(19, '2019-12-24 15:53:22', '2019-12-24 08:53:22', 'Administrator', 1, '1256612787', '0838383838', '8793879', 'Jl. Keputih 3C nomor 50B', NULL),
+(20, '2019-12-26 10:41:41', '2019-12-26 03:41:41', 'saaas', 1, '21112', '121212', '11212', 'Jl. Prof Dr. Supomo no30A, Umbulharjo, PT. Docotel Branch 3 Jogja', NULL);
 
 --
 -- Indexes for dumped tables
@@ -195,6 +259,12 @@ INSERT INTO `vendor` (`id`, `created_date`, `updated_date`, `name`, `field_id`, 
 -- Indexes for table `business_field`
 --
 ALTER TABLE `business_field`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `customer`
+--
+ALTER TABLE `customer`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -240,6 +310,18 @@ ALTER TABLE `so_line`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `uom`
+--
+ALTER TABLE `uom`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `vendor`
 --
 ALTER TABLE `vendor`
@@ -254,6 +336,12 @@ ALTER TABLE `vendor`
 --
 ALTER TABLE `business_field`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `customer`
+--
+ALTER TABLE `customer`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `kwitansi`
@@ -298,10 +386,22 @@ ALTER TABLE `so_line`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `uom`
+--
+ALTER TABLE `uom`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `vendor`
 --
 ALTER TABLE `vendor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

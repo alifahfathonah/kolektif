@@ -50,10 +50,7 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
                                     <!-- item-->
-                                    <a class="dropdown-item" href="#"><i class="mdi mdi-account-circle"></i> Profile</a>
-                                    <a class="dropdown-item" href="#"><i class="mdi mdi-wallet"></i> My Wallet</a>
-                                    <a class="dropdown-item d-block" href="#"><span class="badge badge-success float-right">11</span><i class="mdi mdi-settings"></i> Settings</a>
-                                    <a class="dropdown-item" href="#"><i class="mdi mdi-lock-open-outline"></i> Lock screen</a>
+                                    <a class="dropdown-item" href="<?=base_url()?>profile"><i class="mdi mdi-account-circle"></i> Profile</a>
                                     <div class="dropdown-divider"></div>
                                     <?= form_open(base_url('site/logout'))  ?>
                                         <button class="dropdown-item text-danger" type="submit"><i class="mdi mdi-power text-danger"></i> Logout</button>

@@ -52,3 +52,4 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'Dashboard';
 $route['404_override'] = 'ErrorPage';
 $route['translate_uri_dashes'] = false;
+$route['profile'] = 'usermanagament/setting';
