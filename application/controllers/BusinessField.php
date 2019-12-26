@@ -4,6 +4,10 @@ class BusinessField extends Controller
 	public $models = ['BusinessFieldModel']; 
 	public function index()
 	{
-		echo 'hello BusinessField';
+		$model = new BusinessFieldModel();
+		$dataProvider = $model->findAll();
+		$this->render('business_field/index', [
+			'model' => $dataProvider
+		]);
 	}
 } 
