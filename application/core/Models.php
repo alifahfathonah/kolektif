@@ -9,7 +9,6 @@ class Models extends CI_Model
     public $nullable = [];
     public $errors = [];
     public $datatype = [];
-    public  $status=[];
 
     public function __construct($id=null)
     {
