@@ -6,9 +6,10 @@ class Models extends CI_Model
     public $columns = [null];
     public $primaryKey = 'id';
     public $data;
-    public $nullable;
+    public $nullable = [];
     public $errors = [];
     public $datatype = [];
+    public const STATUS=[];
 
     public function __construct($id=null)
     {
@@ -30,16 +31,26 @@ class Models extends CI_Model
                 $value = $value['field'];
             }
             $this->$value = isset($data) ? $data->$value : null;
+            $this->data->$value = isset($data) ? $data->$value : null;
             $this->datatype[$value] = $type;
         }
+        array_push($this->nullable, 'created_date', 'updated_date');
     }
     public function beforeInsert()
     {
         $this->data->created_date = date("Y-m-d H:i:s");
+<<<<<<< HEAD
+=======
+        $this->session->set_flashdata('success', 'Data successsfully saved');
+>>>>>>> 1684bc7bec46c57feb7a98061e0396fba7b42962
     }
     public function beforeUpdate()
     {
         $this->data->updated_date = date("Y-m-d H:i:s");
+<<<<<<< HEAD
+=======
+        $this->session->set_flashdata('success', 'Data successsfully saved');
+>>>>>>> 1684bc7bec46c57feb7a98061e0396fba7b42962
     }
     public function rawQuery($query)
     {
@@ -88,13 +99,17 @@ class Models extends CI_Model
     public function insert()
     {
         if ($this->data!=null) {
-            return $this->db->insert($this->tableName, $this->data);
+            $this->beforeInsert();
+            $this->db->insert($this->tableName, $this->data);
+            $insert_id = $this->db->insert_id();
+            $this->newValue = ['id' => $insert_id, 'data' => $this->data];
         }
         return false;
     }
     public function update()
     {
         if ($this->data!=null) {
+            $this->beforeUpdate();
             $this->db->where($this->primaryKey, $this->_id);
             $this->db->update($this->tableName, $this->data);
         }
@@ -115,6 +130,7 @@ class Models extends CI_Model
     public function remove()
     {
         $this->db->where($this->primaryKey, $this->_id);
+        $this->session->set_flashdata('success', 'Data successsfully deleted');
         return $this->db->delete($this->tableName);
     }
     public function setAttributes(Array $arr)
@@ -130,21 +146,22 @@ class Models extends CI_Model
 
     public function validate()
     {
-        
-        $this->beforeInsert();
-        $this->beforeUpdate();
+        $nullable = array_flip($this->nullable);
         foreach ($this->data as $key => $value) {
-            if ($value==null) {
-                $this->errors[$key] = 'field '.$key.' cannot be null';
-            }
-            if (isset($this->datatype[$key])) {
-                if ($this->datatype[$key] == 'int' && !is_numeric($value)) {
-                    $this->errors[$key] = 'must int';
+            if (!isset($nullable[$key])) {
+                if (isset($this->datatype[$key])) {
+                    if ($this->datatype[$key] == 'int' && !is_numeric($value)) {
+                        $this->session->set_flashdata('error', 'Check your data');
+                        $this->errors[$key] = 'must int';
+                    }
+                    
                 }
-                
+                if ($value==null) {
+                    $this->session->set_flashdata('error', 'Check your data');
+                    $this->errors[$key] = 'field '.$key.' cannot be null';
+                }
             }
         }
-        
         return count($this->errors)==0;
     }
     
