@@ -3,7 +3,7 @@ class ProductModel extends Models
 {
 	public $tableName = 'product';
 	public $columns = [
-		['field' => 'create_date','type' => 'string'],
+		['field' => 'created_date','type' => 'string'],
 		['field' => 'update_create','type' => 'string'],
 		['field' => 'product_sku','type' => 'string'],
 		['field' => 'product_name','type' => 'string'],

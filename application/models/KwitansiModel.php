@@ -3,8 +3,8 @@ class KwitansiModel extends Models
 {
 	public $tableName = 'kwitansi';
 	public $columns = [
-		['field' => 'create_date','type' => 'string'],
-		['field' => 'update_date','type' => 'string'],
+		['field' => 'created_date','type' => 'string'],
+		['field' => 'updated_date','type' => 'string'],
 		['field' => 'source_id','type' => 'int'],
 		['field' => 'is_bill','type' => 'string'],
 		['field' => 'file','type' => 'string'],
