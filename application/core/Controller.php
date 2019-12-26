@@ -24,8 +24,10 @@ class Controller extends CI_Controller
             }
             $this->roles = roles()[$this->loginInformation()->role];
             $this->assignMenus();
-            if (!in_array($this->controllerId, $this->roles) && !$this->exclution) {
-                forbidden();
+            if ( $this->loginInformation()->role != '0') {
+                if (!in_array($this->controllerId, $this->roles) && !$this->exclution) {
+                    forbidden();
+                }
             }
         }
         $this->load->model($this->models);
