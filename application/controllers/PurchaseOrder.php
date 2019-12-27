@@ -1,7 +1,7 @@
 <?php 
 class PurchaseOrder extends Controller 
 {
-	public $models = ['PurchaseOrderModel', 'VendorModel', 'PoLineModel']; 
+	public $models = ['PurchaseOrderModel', 'VendorModel', 'PoLineModel', 'ProductModel']; 
 	public function index()
 	{
 		$model = new PurchaseOrderModel();
@@ -37,7 +37,10 @@ class PurchaseOrder extends Controller
 		$model->data->name = 'PO/'.$prev_po[0]->id;
 		if ($this->input->post()== null) {
 			$model->insert();
+			// dd($model->newValue);
+			redirect($this->controllerId.'/edit/'.$model->newValue['id']);
 			$model = new PurchaseOrderModel($model->newValue['id']);
+			
 		} else {
 			$model = new PurchaseOrderModel($prev_po[0]->id);
 		}
@@ -59,7 +62,7 @@ class PurchaseOrder extends Controller
 				redirect($this->controllerId.'/index');
 			}
 		}
-		$this->render('purchase_order/form', [
+		$this->render('purchase_order/advanced_form', [
 			'model' => $model,
 			'dropdown_list' => $dropdown_list,
 			'line' => $dataProvider
@@ -71,6 +74,8 @@ class PurchaseOrder extends Controller
 		$model = new PurchaseOrderModel($id);
 		$vendor = new VendorModel();
 		$dropdown_list = $vendor->getListForDropdown();
+		$product = new ProductModel();
+		$product_list = $product->getListForDropdown();
 		
 		$line = new PoLineModel();
 		$line->select(['po_line.*', 'purchase_order.name as po_name', 'product.name as product_name']);
@@ -81,16 +86,19 @@ class PurchaseOrder extends Controller
 
 		if ($this->input->post()!= null) {
 			$model->setAttributes($this->input->post());
-			$model->data->state = 1;
+			$model->data->state = $model->data->state == 'on' ? 1 : 0;
+			// dd($model->data);
 			if ($model->validate()) {
 				$model->update();
 				redirect($this->controllerId.'/index');
 			}
 		}
-		$this->render('purchase_order/form', [
+		$this->render('purchase_order/advanced_form', [
 			'model' => $model,
 			'dropdown_list' => $dropdown_list,
-			'line' => $dataProvider
+			'line' => $dataProvider,
+			'PoLineModel' => $line,
+			'product_list' => $product_list
 		]);
 		
 	}

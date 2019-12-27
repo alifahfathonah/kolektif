@@ -146,11 +146,41 @@
 
         <script>
             $(document).ready(function(){
+                var flag = false;
+                var status = $('#formPosSo').find('#state').attr('data-val')
+                // alert(status)
+                if (status!=0) {
+                    var btn = $('#formPosSo').find('input[type="submit"]')
+                    btn.val('Form has been proceed')
+                    btn.removeClass("btn-success")
+                    btn.addClass("disabled")
+                    $('#addNewLine').remove()
+                    $('#formPosSo').find('#state').removeAttr('id')
+                }
+                
+                $('#formPosSo').submit(function(e){
+                    var id = $(this)
+                    var ischecked = $('#formPosSo').find('#state').prop('checked')
+                    if (status!=0) {
+                        e.preventDefault()
+                        return false
+                    }
+                    else if (!flag && ischecked) {
+                        alertify.confirm("Are you sure want to permanently save? ", function() {
+                            flag = true;
+                            id.submit()
+                        }, function(ev) {
+                            flag = false;
+                            ev.preventDefault();
+                            return false
+                        });
+                        e.preventDefault()
+                    }
+                })
                 $('.parsley-error').change(function(){
                     $(this).removeClass("parsley-error")
                 })
-                $('select').select2()
-                var flag = false;
+                $('.select2').select2()
                 $(".deleteData").submit(function(e){
                     var id = $(this)
                     if (!flag) {

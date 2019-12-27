@@ -164,13 +164,20 @@ class Models extends CI_Model
         $class = isset($config['class']) ? $config['class']: 'form-control'; 
         $action= isset($config['action']) ? $config['action']: '';
         $columns = isset($config['columns']) ? $config['columns'] : $this->columns;
+        $grid= isset($config['grid']) ? $config['grid']: null;
+        $btn_text= isset($config['btn_text']) ? $config['btn_text']: 'Submit';
+        $btn_position= isset($config['btn_position']) ? $config['btn_position']: null;
+        $formOptions= isset($config['formOptions']) ? $config['formOptions']: false;
+        $isInline= isset($config['isInline']) ? $config['isInline']: false;
+        $useLabel= isset($config['useLabel']) ? $config['useLabel']: true;
+
+        // dd($grid);
         foreach ($columns as $key => $value) {
             $inputType = isset($value['inputType']) ? $value['inputType'] : 'text';
             $label = isset($value['label']) ? $value['label'] : null;
             $tip = isset($value['tip']) ? '('.$value['tip'].')' : null;
             $class = isset($value['class']) ? $class.' '.$value['class'] : $class;
             $options = isset($value['options']) ? $value['options'] : null;
-
             $dropDownContent = isset($value['content']) ? $value['content'] : null;
             if (is_array($value)) {
                 $value = $value['field'];
@@ -178,6 +185,9 @@ class Models extends CI_Model
             $field_errors = isset($this->errors[$value]) ? "parsley-error" : null;
             
             $label = $label == null ? ucwords(str_replace('_', ' ', $value)) : $label;
+            if (!$useLabel) {
+                $label=null;
+            }
 
             // if (!isset($this->datatype[$value])) {
             //     return 'column not valid';
@@ -187,45 +197,89 @@ class Models extends CI_Model
                 case 'dropdown':
                     $dropdown = $this->createDropdown($dropDownContent, $data);
                     $form[] = '
-                    <div class="form-group">
+                    
+                        <label>'.$label.'</label>
+                        <small class="text-muted">'.$tip.'</small>
+                        <select name="'.$value.'" class="'.$class.' select2" '.$options.'>
+                            '.$dropdown.'
+                        </select>';
+                    break;
+                case 'reg_dropdown':
+                    $dropdown = $this->createDropdown($dropDownContent, $data);
+                    $form[] = '
+                    
                         <label>'.$label.'</label>
                         <small class="text-muted">'.$tip.'</small>
                         <select name="'.$value.'" class="'.$class.'" '.$options.'>
                             '.$dropdown.'
-                        </select>
-                    </div>';
+                        </select>';
                     break;
                 case 'readonly':
                     $form[] = '
-                    <div class="form-group">
+                    
                         <label>'.$label.'</label>
                         <small class="text-muted">'.$tip.'</small>
-                        : '.$data.' 
-                    </div>';
+                        : <span '.$options.'>'.$data.'</span> ';
                     break;
                 case 'image':
                     $form[] = '<image src="'.base_url('uploads/').$data.'" style="width: 300px"> <br>';
                     break;
                 case 'button':
                     $form[] = '
-                    <div class="form-group">
-                        <a href="javascript:void(0)" class="btn btn-primary" '.$options.'>'.$label.'</a> 
+                    
+                        <a href="javascript:void(0)" class="btn btn-primary" '.$options.'>'.$label.'</a> ';
+                    break;
+                case 'checkbox':
+                    $dataCheck = $data ? 'checked' : null;
+                    $form[] = '<div class="custom-control custom-checkbox">
+                        <input data-val="'.$data.'" type="checkbox" id="state" name="'.$value.'" class="custom-control-input" '.$dataCheck.'>
+                        <label class="custom-control-label" for="state">'.$label.'</label>
                     </div>';
                     break;
-                
                 default:
                     $form[] = '
-                    <div class="form-group">
+                    
                         <label>'.$label.'</label>
                         <small class="text-muted">'.$tip.'</small>
                         <input autocomplete="off" placeholder="'.strtolower($label).'" type="'.$inputType.'" 
-                        value="'.$data.'" class="'.$class.' '.$field_errors.'" name="'.$value.'" '.$options.'> 
-                    </div>';
+                        value="'.$data.'" class="'.$class.' '.$field_errors.'" name="'.$value.'" '.$options.'> ';
                     break;
             }
         }
-        // dd($form);
-        return form_open_multipart($action).implode('', $form).'<input type="submit" class="btn btn-success" value="Submit"> </form>';
+        if (!$isInline) {
+            switch ($btn_position) {
+                case 'top':
+                    $form_fix =  form_open_multipart($action, $formOptions).
+                    '<input type="submit" class="btn btn-success" value="'.$btn_text.'"> <br><br>'.
+                    $this->template($form, $grid).' </form>';
+                    break;
+                
+                default:
+                    $form_fix = form_open_multipart($action, $formOptions).
+                    $this->template($form, $grid).
+                    '<input type="submit" class="btn btn-success" value="'.$btn_text.'"> </form>';
+                    break;
+            }
+        }
+        else{
+            $form_fix = form_open_multipart($action, $formOptions).
+            $this->template($form, $grid, $isInline).
+            '<td><input type="submit" class="btn btn-success" value="'.$btn_text.'"></td> </form>';
+        }
+        return $form_fix;
+    }
+    private function template($form, $grid, $isInline=false){
+        if ($isInline) {
+            $form = implode('</td><td>', $form);
+            return '<td>'.$form.'</td>';
+        }
+        if ($grid==null) {
+            $form = implode('</div><div class="form-group">', $form);
+            // return $form;
+            return '<div class="form-group">'.$form.'</div>';
+        }
+        $form = implode('</div><div class="'.$grid.'">', $form);
+        return '<div class="row"><div class="'.$grid.'">'.$form.'</div></div>';
     }
     public function createDropdown(Array $dropdown, $data)
     {
