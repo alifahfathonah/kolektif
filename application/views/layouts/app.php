@@ -61,9 +61,9 @@
                     </ul>
                     <ul class="list-inline menu-left mb-0">
                         <li class="d-none d-md-inline-block">
-                            <form role="search" class="app-search">
+                            <form role="search" action="" method="get" class="app-search">
                                 <div class="form-group mb-0">
-                                    <input type="text" class="form-control" placeholder="Search..">
+                                    <input name="search_key" type="text" value="<?=isset($_GET['search_key']) ? $_GET['search_key']: null?>" class="form-control" placeholder="Search..">
                                     <button type="submit"><i class="fa fa-search"></i></button>
                                 </div>
                             </form>

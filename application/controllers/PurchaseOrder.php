@@ -8,6 +8,8 @@ class PurchaseOrder extends Controller
 		$model->select(['purchase_order.*', 'vendor.name as vendor']);
 		$model->joinWith('vendor', 'vendor.id = purchase_order.vendor_id', 'left');
 		$model->orderBy(['id' => 'desc']);
+		$model->search('purchase_order.name', $this->searchKey);
+		
 		$dataProvider = $model->findAll();
 		foreach ($dataProvider as $key => $value) {
 			$value->state = isset($value->state) ? $value->state : 0;

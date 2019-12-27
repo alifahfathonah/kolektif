@@ -35,6 +35,10 @@ class Models extends CI_Model
         }
 
     }
+    public function search($column, $key)
+    {
+        $this->db->like($column, $key);
+    }
     public function beforeInsert()
     {
         $this->data->created_date = date("Y-m-d H:i:s");

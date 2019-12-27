@@ -10,6 +10,7 @@ class Controller extends CI_Controller
     public $exclution = false;
     public $accessGroup;
     public $thisRoute;
+    public $searchKey;
 
     public $roles = ['vendor', 'bfield'];
     
@@ -34,6 +35,8 @@ class Controller extends CI_Controller
             }
         }
         $this->load->model($this->models);
+        $search = isset($_GET['search_key']) ? $_GET['search_key'] : null;
+        $this->searchKey = $search;
     }
     protected function loginInformation(){
         return (object) $this->session->userdata('userdata');
