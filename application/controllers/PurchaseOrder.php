@@ -6,8 +6,12 @@ class PurchaseOrder extends Controller
 	{
 		$model = new PurchaseOrderModel();
 		$model->select(['purchase_order.*', 'vendor.name as vendor']);
-		$model->joinWith('vendor', 'vendor.id = purchase_order.vendor_id');
+		$model->joinWith('vendor', 'vendor.id = purchase_order.vendor_id', 'left');
 		$dataProvider = $model->findAll();
+		foreach ($dataProvider as $key => $value) {
+			$value->state = isset($value->state) ? $value->state : 0;
+			$value->state = getState($value->state);
+		}
 		$this->render('purchase_order/index', [
 			'model' => $dataProvider,
 		]);
@@ -44,6 +48,7 @@ class PurchaseOrder extends Controller
 		
 		if ($this->input->post()!= null) {
 			$model->setAttributes($this->input->post());
+			$model->data->state = 1;
 			if ($model->validate()) {
 				$model->update();
 				redirect($this->controllerId.'/index');
@@ -71,7 +76,7 @@ class PurchaseOrder extends Controller
 
 		if ($this->input->post()!= null) {
 			$model->setAttributes($this->input->post());
-			
+			$model->data->state = 1;
 			if ($model->validate()) {
 				$model->update();
 				redirect($this->controllerId.'/index');

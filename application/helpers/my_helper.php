@@ -13,6 +13,17 @@ function loadJs(Array $js)
     }
     echo implode('', $arr);
 }
+function getState($int=0)
+{
+    $arr = [
+        'Draft',
+        'Accepted',
+        'On Process',
+        'Done',
+        'Cance;'
+    ];
+    return $arr[$int];
+}
 function dd($data)
 {
     echo "<pre style='color: red; margin: 30px; background-color: #dbdbdb; padding: 20px'>";

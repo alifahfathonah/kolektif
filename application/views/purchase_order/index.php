@@ -9,7 +9,8 @@
 						<?php serializeTable($model, [
 							'columns' => [
 								'name',
-								'vendor'
+								'vendor',
+								'state'
 							],
 							'uri' => $controllerId,
 						]) ?>
