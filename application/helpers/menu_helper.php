@@ -18,6 +18,13 @@ function menus()
                 ["menu" => 'Vendor List', "url" => "vendor/index"], 
             ]
         ],
+        "finance" => [
+            "menu" => 'Finance', 
+            'icon' => "ti-money", 
+            "child" => [
+                ["menu" => 'Product List', "url" => "finance/index"], 
+            ]
+        ],
         "werehouse" => [
             "menu" => 'Werehouse', 
             'icon' => "ti-briefcase", 
@@ -51,7 +58,7 @@ function menus()
 function roles()
 {
     return [
-		0 => ['purchasing', 'businessfield', 'dashboard', 'usermanagament', 'customer', 'product', 'werehouse'],
+		0 => ['finance','purchasing', 'businessfield', 'dashboard', 'usermanagament', 'customer', 'product', 'werehouse'],
 		1 => ['purchasing'],
 		2 => ['product'],
 		3 => ['dashboard'],

@@ -16,20 +16,11 @@ class Finance extends Controller
 	public function edit($id)
 	{
 		$model = new ProductModel($id);
-		$upload = new Upload();
 		$uom = new UomModel();
 		$dropdown_list = $uom->getListForDropdown();
 
 		if ($this->input->post()!= null) {
 			$model->setAttributes($this->input->post());
-			$atch_name = null;
-			if ($upload->save('image')) {
-				$atch_name = $upload->getFileName();
-			}
-			else if($upload->upload->file_name) {
-					$model->errors['image'] = $upload->errors;
-			}
-			$model->data->image = $atch_name;
 			if ($model->validate()) {
 				$model->update();
 				redirect($this->controllerId.'/index');

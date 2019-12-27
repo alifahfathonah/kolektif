@@ -158,52 +158,7 @@ class Models extends CI_Model
         }
         return count($this->errors)==0;
     }
-    public function serializeForm1(Array $config=[])
-    {
-        $class = isset($config['class']) ? $config['class']: 'form-control'; 
-        $action= isset($config['action']) ? $config['action']: '';
-        $columns = isset($config['columns']) ? $config['columns'] : $this->columns;
-        foreach ($columns as $key => $value) {
-            $inputType = isset($value['inputType']) ? $value['inputType'] : 'text';
-            $label = isset($value['label']) ? $value['label'] : null;
-            $tip = isset($value['tip']) ? '('.$value['tip'].')' : null;
-
-            $dropDownContent = isset($value['content']) ? $value['content'] : null;
-            if (is_array($value)) {
-                $value = $value['field'];
-            }
-            $field_errors = isset($this->errors[$value]) ? "parsley-error" : null;
-            
-            $label = $label == null ? ucwords(str_replace('_', ' ', $value)) : $label;
-
-            // if (!isset($this->datatype[$value])) {
-            //     return 'column not valid';
-            // }
-            $data = isset($this->data->$value) ?$this->data->$value : '';
-            if ($inputType == 'dropdown') {
-                $dropdown = $this->createDropdown($dropDownContent, $data);
-                $form[] = '
-                <div class="form-group">
-                    <label>'.$label.'</label>
-                    <small class="text-muted">'.$tip.'</small>
-                    <select name="'.$value.'" class="'.$class.'">
-                        '.$dropdown.'
-                    </select>
-                </div>';
-            }
-            else{
-                $form[] = '
-                <div class="form-group">
-                    <label>'.$label.'</label>
-                    <small class="text-muted">'.$tip.'</small>
-                    '.$data.' 
-                </div>';
-            }
-        }
-        // dd($form);
-        return form_open_multipart($action).implode('', $form).'<input type="submit" class="btn btn-success" value="Submit"> </form>';
-    }
-
+    
     public function serializeForm(Array $config=[])
     {
         $class = isset($config['class']) ? $config['class']: 'form-control'; 
@@ -226,25 +181,39 @@ class Models extends CI_Model
             //     return 'column not valid';
             // }
             $data = isset($this->data->$value) ?$this->data->$value : '';
-            if ($inputType == 'dropdown') {
-                $dropdown = $this->createDropdown($dropDownContent, $data);
-                $form[] = '
-                <div class="form-group">
-                    <label>'.$label.'</label>
-                    <small class="text-muted">'.$tip.'</small>
-                    <select name="'.$value.'" class="'.$class.'">
-                        '.$dropdown.'
-                    </select>
-                </div>';
-            }
-            else{
-                $form[] = '
-                <div class="form-group">
-                    <label>'.$label.'</label>
-                    <small class="text-muted">'.$tip.'</small>
-                    <input autocomplete="off" placeholder="'.strtolower($label).'" type="'.$inputType.'" 
-                    value="'.$data.'" class="'.$class.' '.$field_errors.'" name="'.$value.'"> 
-                </div>';
+            switch ($inputType) {
+                case 'dropdown':
+                    $dropdown = $this->createDropdown($dropDownContent, $data);
+                    $form[] = '
+                    <div class="form-group">
+                        <label>'.$label.'</label>
+                        <small class="text-muted">'.$tip.'</small>
+                        <select name="'.$value.'" class="'.$class.'">
+                            '.$dropdown.'
+                        </select>
+                    </div>';
+                    break;
+                case 'readonly':
+                    $form[] = '
+                    <div class="form-group">
+                        <label>'.$label.'</label>
+                        <small class="text-muted">'.$tip.'</small>
+                        : '.$data.' 
+                    </div>';
+                    break;
+                case 'image':
+                    $form[] = '<image src="'.base_url('uploads/').$data.'" style="width: 100px"> <br>';
+                    break;
+                
+                default:
+                    $form[] = '
+                    <div class="form-group">
+                        <label>'.$label.'</label>
+                        <small class="text-muted">'.$tip.'</small>
+                        <input autocomplete="off" placeholder="'.strtolower($label).'" type="'.$inputType.'" 
+                        value="'.$data.'" class="'.$class.' '.$field_errors.'" name="'.$value.'"> 
+                    </div>';
+                    break;
             }
         }
         // dd($form);

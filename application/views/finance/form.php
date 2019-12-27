@@ -3,22 +3,31 @@
 		<div class="card m-b-30">
 			<div class="card-body">
 				<?php count($model->errors)>0 ? d($model->errors) : ''?>
-				<?php echo $model->serializeForm1([
-                    'columns' => [
-						'product_sku',
-                        'product_name',
-						'description',
-						
-						'on_hand',
-                    ]
-                ]);
+				<?php
                 echo $model->serializeForm([
                     'columns' => [
-						'product_sku',
-                        'product_name',
-						'description',
+						[
+							'field' => 'image',
+							'inputType' => 'image'
+						],
+						[
+							'field' => 'product_sku',
+							'inputType' => 'readonly'
+						],
+						[
+							'field' => 'product_name',
+							'inputType' => 'readonly'
+						],
+						[
+							'field' => 'description',
+							'inputType' => 'readonly'
+						],
+						[
+							'field' => 'on_hand',
+							'inputType' => 'readonly'
+						],
 						
-						'on_hand',
+						'retail_price',
                     ]
                 ])
                  ?>

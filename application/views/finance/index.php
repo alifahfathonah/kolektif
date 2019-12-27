@@ -7,7 +7,7 @@
 				<div class="table-rep-plugin">
 					<div class="table-responsive b-0" data-pattern="priority-columns">
 						<?php 
-						serializeTable1($model, [
+						serializeTable($model, [
 							'columns' => [
 								'product_sku',
 								'product_name',
@@ -23,6 +23,7 @@
 
 							],
 							'uri' => $controllerId,
+							'action' => ['edit']
 						]) ?>
 					</div>
 
