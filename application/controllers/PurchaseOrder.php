@@ -7,6 +7,7 @@ class PurchaseOrder extends Controller
 		$model = new PurchaseOrderModel();
 		$model->select(['purchase_order.*', 'vendor.name as vendor']);
 		$model->joinWith('vendor', 'vendor.id = purchase_order.vendor_id', 'left');
+		$model->orderBy(['id' => 'desc']);
 		$dataProvider = $model->findAll();
 		foreach ($dataProvider as $key => $value) {
 			$value->state = isset($value->state) ? $value->state : 0;
@@ -34,8 +35,12 @@ class PurchaseOrder extends Controller
 		$model = new PurchaseOrderModel();
 		$prev_po = $model->rawQuery('select id from purchase_order order by id desc limit 1');
 		$model->data->name = 'PO/'.$prev_po[0]->id;
-		$model->insert();
-		$model = new PurchaseOrderModel($model->newValue['id']);
+		if ($this->input->post()== null) {
+			$model->insert();
+			$model = new PurchaseOrderModel($model->newValue['id']);
+		} else {
+			$model = new PurchaseOrderModel($prev_po[0]->id);
+		}
 		$vendor = new VendorModel();
 		$dropdown_list = $vendor->getListForDropdown();
 
