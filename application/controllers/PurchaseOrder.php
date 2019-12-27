@@ -23,7 +23,6 @@ class PurchaseOrder extends Controller
 		$model = new PurchaseOrderModel($id);
 		try {
 			$model->remove();
-			// redirect($this->controllerId.'/index/'.$type);
 			redirect($_SERVER['HTTP_REFERER']);
 		} catch (\Throwable $th) {
 			dd($model->errors);
@@ -33,9 +32,10 @@ class PurchaseOrder extends Controller
 	public function create()
 	{
 		$model = new PurchaseOrderModel();
+		$prev_po = $model->rawQuery('select id from purchase_order order by id desc limit 1');
+		$model->data->name = 'PO/'.$prev_po[0]->id;
 		$model->insert();
 		$model = new PurchaseOrderModel($model->newValue['id']);
-		// dd($model);
 		$vendor = new VendorModel();
 		$dropdown_list = $vendor->getListForDropdown();
 
