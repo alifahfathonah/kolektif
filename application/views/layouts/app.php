@@ -92,6 +92,15 @@
                 <div class="content">
                     <div class="container-fluid">
                         <div class="page-title-box">
+                            <div class="row align-items-center">
+                                <div class="col-sm-6">
+                                    <h4 class="page-title"><?= isset($title) ? $title : '' ?></h4>
+                                </div>
+                                <div class="col-sm-6">
+                                    <?php breadcrumbs($thisRoute) ?>
+                                </div>
+                            </div>
+                            <!-- end row -->
                         </div>
                         <?php $this->load->view($view, $params); ?>
                     </div>

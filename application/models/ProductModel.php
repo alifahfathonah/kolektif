@@ -15,5 +15,5 @@ class ProductModel extends Models
 		['field' => 'description','type' => 'string']
 	];
 	public $primaryKey = 'id';
-	public $mandatory = ['product_name', 'uom_id'];
+	public $mandatory = ['name', 'uom_id'];
 } 

@@ -15,7 +15,7 @@
 							'inputType' => 'readonly'
 						],
 						[
-							'field' => 'product_name',
+							'field' => 'name',
 							'inputType' => 'readonly'
 						],
 						[

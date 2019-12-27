@@ -52,6 +52,7 @@ class Controller extends CI_Controller
     public function render($view, Array $params = [])
     {
         $this->load->view('layouts/'.$this->layout, [
+            'thisRoute' => $this->isDefaultController ? null : $this->thisRoute,
             'view' => $view,
             'params' => $params,
             'controllerId'=> $this->controllerId,

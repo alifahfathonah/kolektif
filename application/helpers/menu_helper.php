@@ -1,5 +1,32 @@
 <?php
 
+function breadcrumbs($route)
+{
+    if ($route==null) {
+        return false;
+    }
+    $segments = explode('/', $route);
+    foreach ($segments as $key => $value) {
+        $url = base_url($value);
+        $value = ucfirst($value);
+        $activeClass = null;
+        if ($key==count($segments)-1) {
+            $url='javascript:void(0)';
+            $activeClass = 'active';
+        }
+        else{
+            $value = '<a href="'.$url.'">'.$value.'</a>';
+        }
+        $items[] = '<li class="breadcrumb-item '.$activeClass.'">'.$value.'</li>';
+    }
+    $item = implode("\n",$items);
+    echo 
+    '<ol class="breadcrumb float-right">
+        <li class="breadcrumb-item"><a href="'.base_url().'">Home</a></li>
+        '.$item.'
+    </ol>';
+}
+
 function menus()
 {
     return [
@@ -16,6 +43,7 @@ function menus()
             'icon' => "ti-shopping-cart", 
             "child" => [
                 ["menu" => 'Vendor List', "url" => "vendor/index"], 
+                ["menu" => 'Purchase Orders', "url" => "purchaseorder/index"], 
             ]
         ],
         "finance" => [

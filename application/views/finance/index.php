@@ -10,7 +10,7 @@
 						serializeTable($model, [
 							'columns' => [
 								'product_sku',
-								'product_name',
+								'name',
 								'description',
                                 [
 									'attribute' => 'image',

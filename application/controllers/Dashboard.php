@@ -19,7 +19,7 @@ class Dashboard extends Controller
 		$vendor = new VendorModel();
 		$vendorList = $vendor->getListForDropdown();
 		$product = new ProductModel();
-		$productList = $product->getListForDropdown('product_name');
+		$productList = $product->getListForDropdown('name');
 		$this->render('dashboard/poline', [
 			'vendor' => $vendorList,
 			'product' => $productList,
