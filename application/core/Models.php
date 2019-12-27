@@ -168,6 +168,8 @@ class Models extends CI_Model
             $inputType = isset($value['inputType']) ? $value['inputType'] : 'text';
             $label = isset($value['label']) ? $value['label'] : null;
             $tip = isset($value['tip']) ? '('.$value['tip'].')' : null;
+            $class = isset($value['class']) ? $class.' '.$value['class'] : $class;
+            $options = isset($value['options']) ? $value['options'] : null;
 
             $dropDownContent = isset($value['content']) ? $value['content'] : null;
             if (is_array($value)) {
@@ -188,7 +190,7 @@ class Models extends CI_Model
                     <div class="form-group">
                         <label>'.$label.'</label>
                         <small class="text-muted">'.$tip.'</small>
-                        <select name="'.$value.'" class="'.$class.'">
+                        <select name="'.$value.'" class="'.$class.'" '.$options.'>
                             '.$dropdown.'
                         </select>
                     </div>';
@@ -204,6 +206,12 @@ class Models extends CI_Model
                 case 'image':
                     $form[] = '<image src="'.base_url('uploads/').$data.'" style="width: 300px"> <br>';
                     break;
+                case 'button':
+                    $form[] = '
+                    <div class="form-group">
+                        <a href="javascript:void(0)" class="btn btn-primary" '.$options.'>'.$label.'</a> 
+                    </div>';
+                    break;
                 
                 default:
                     $form[] = '
@@ -211,7 +219,7 @@ class Models extends CI_Model
                         <label>'.$label.'</label>
                         <small class="text-muted">'.$tip.'</small>
                         <input autocomplete="off" placeholder="'.strtolower($label).'" type="'.$inputType.'" 
-                        value="'.$data.'" class="'.$class.' '.$field_errors.'" name="'.$value.'"> 
+                        value="'.$data.'" class="'.$class.' '.$field_errors.'" name="'.$value.'" '.$options.'> 
                     </div>';
                     break;
             }

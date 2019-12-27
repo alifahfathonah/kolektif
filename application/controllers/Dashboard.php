@@ -4,12 +4,26 @@ class Dashboard extends Controller
 {
 
 	public $isDefaultController = true;
-	public $models = ['VendorModel','UsersModel']; 
+	public $models = ['VendorModel','UsersModel', 'PoLineModel', 'ProductModel']; 
 
 	public function index()
 	{
 		$this->render('dashboard/index', [
 			
+		]);
+	}
+
+	public function poline()
+	{
+		$model = new PoLineModel();
+		$vendor = new VendorModel();
+		$vendorList = $vendor->getListForDropdown();
+		$product = new ProductModel();
+		$productList = $product->getListForDropdown('product_name');
+		$this->render('dashboard/poline', [
+			'vendor' => $vendorList,
+			'product' => $productList,
+			'model' => $model
 		]);
 	}
 
