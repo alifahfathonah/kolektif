@@ -31,7 +31,7 @@
 
                 <!-- LOGO -->
                 <div class="topbar-left">
-                    <a href="index.html" class="logo">
+                    <a href="<?=base_url()?>" class="logo">
                         <span  class="logo-light">
                             <img src="<?=base_url()?>/assets/brand.svg" alt=""> Kolektifindustri.com
                         </span>
