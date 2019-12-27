@@ -202,7 +202,7 @@ class Models extends CI_Model
                     </div>';
                     break;
                 case 'image':
-                    $form[] = '<image src="'.base_url('uploads/').$data.'" style="width: 100px"> <br>';
+                    $form[] = '<image src="'.base_url('uploads/').$data.'" style="width: 300px"> <br>';
                     break;
                 
                 default:
