@@ -63,14 +63,14 @@ class Product extends Controller
 
 		if ($this->input->post()!= null) {
 			$model->setAttributes($this->input->post());
-			$atch_name = null;
+			
 			if ($upload->save('image')) {
 				$atch_name = $upload->getFileName();
+				$model->data->image = $atch_name;
 			}
 			else if($upload->upload->file_name) {
-					$model->errors['image'] = $upload->errors;
+				$model->errors['image'] = $upload->errors;
 			}
-			$model->data->image = $atch_name;
 			if ($model->validate()) {
 				$model->update();
 				redirect($this->controllerId.'/index');
