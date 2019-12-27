@@ -6,7 +6,7 @@ class ProductModel extends Models
 		['field' => 'created_date','type' => 'string'],
 		['field' => 'updated_date','type' => 'string'],
 		['field' => 'product_sku','type' => 'string'],
-		['field' => 'product_name','type' => 'string'],
+		['field' => 'name','type' => 'string'],
 		['field' => 'image','type' => 'string'],
 		['field' => 'retail_price','type' => 'string'],
 		['field' => 'brand','type' => 'int'],

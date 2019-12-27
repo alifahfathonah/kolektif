@@ -9,22 +9,12 @@
 						<?php serializeTable($model, [
 							'columns' => [
 								'name',
-								'description',
-                                [
-									'attribute' => 'image',
-									'label' => 'Image',
-									'template' => '<img style="width: 100px" src="'.base_url('uploads/').'{value}">'
-								],
-                                'brand',
-								'uom',
-								'on_hand',
+								'vendor'
 							],
 							'uri' => $controllerId,
 						]) ?>
 					</div>
-
 				</div>
-
 			</div>
 		</div>
 	</div> <!-- end col -->

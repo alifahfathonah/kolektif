@@ -6,7 +6,7 @@
 				<?php echo $model->serializeForm([
                     'columns' => [
 						'product_sku',
-                        'product_name',
+                        'name',
 						'description',
 						['field' => 'image', 'inputType' => 'file'],
 						'brand',
