@@ -6,8 +6,10 @@ class Controller extends CI_Controller
     public $controllerId;
     public $isDefaultController;
     public $layout = 'app';
-    public $forGuest = false;    
+    public $forGuest = false;
     public $exclution = false;
+    public $accessGroup;
+    public $thisRoute;
 
     public $roles = ['vendor', 'bfield'];
     
@@ -15,6 +17,7 @@ class Controller extends CI_Controller
     {
         parent::__construct();
         $this->controllerId = strtolower(get_class($this));
+        $this->thisRoute = $this->controllerId.'/'.$this->router->fetch_method();
         if ((!$this->forGuest) && $this->isGuest()) {
             redirect('site/login');
         }
@@ -25,7 +28,7 @@ class Controller extends CI_Controller
             $this->roles = roles()[$this->loginInformation()->role];
             $this->assignMenus();
             if ( $this->loginInformation()->role != '0') {
-                if (!in_array($this->controllerId, $this->roles) && !$this->exclution) {
+                if (!in_array($this->accessGroup, $this->roles) && !$this->exclution) {
                     forbidden();
                 }
             }

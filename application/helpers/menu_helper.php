@@ -1,10 +1,4 @@
 <?php
-function allControllers()
-{
-    return [
-        'vendor', 'businessfield', 'dashboard'
-    ];
-}
 
 function menus()
 {
@@ -17,15 +11,19 @@ function menus()
                 ["menu" => 'Salesman', "url" => "dashboard/salesman"], 
             ]
         ],
-        "vendor" => [
-            "menu" => 'Vendor', 
+        "purchasing" => [
+            "menu" => 'Purchasing', 
             'icon' => "ti-shopping-cart", 
-            "url" => "vendor"
+            "child" => [
+                ["menu" => 'Vendor List', "url" => "vendor/index"], 
+            ]
         ],
-        "product" => [
-            "menu" => 'Product', 
+        "werehouse" => [
+            "menu" => 'Werehouse', 
             'icon' => "ti-briefcase", 
-            "url" => "product"
+            "child" => [
+                ["menu" => 'Product List', "url" => "product/index"], 
+            ]
         ],
         "customer" => [
             "menu" => 'Customer', 
@@ -53,11 +51,131 @@ function menus()
 function roles()
 {
     return [
-		0 => ['vendor', 'businessfield', 'dashboard', 'usermanagament', 'customer', 'product'],
-		1 => ['vendor', 'dashboard'],
-		2 => ['businessfield', 'dashboard'],
+		0 => ['purchasing', 'businessfield', 'dashboard', 'usermanagament', 'customer', 'product', 'werehouse'],
+		1 => ['purchasing'],
+		2 => ['product'],
 		3 => ['dashboard'],
 	];
+}
+function allRoutes()
+{
+    return  [
+        "all" => [
+            "businessfield/index", 
+            "customer/index", 
+            "dashboard/index", 
+            "kwitansi/index", 
+            "payment/index", 
+            "poline/index", 
+            "product/index", 
+            "product/create", 
+            "product/edit", 
+            "product/delete", 
+            "purchaseorder/index", 
+            "saleorder/index", 
+            "soline/index", 
+            "uom/index", 
+            "usermanagament/index", 
+            "usermanagament/create", 
+            "usermanagament/edit", 
+            "usermanagament/setting", 
+            "vendor/index", 
+            "vendor/create", 
+            "vendor/edit", 
+            "vendor/delete" 
+        ],
+        "werehouse" => [
+            "dashboard/index", 
+            "product/index", 
+            "product/create", 
+            "product/edit", 
+            "product/delete", 
+        ],
+        "purchasing" => [
+            "dashboard/index", 
+            "vendor/index", 
+            "vendor/create", 
+            "vendor/edit", 
+            "vendor/delete" 
+        ],
+        "sales" => [
+            "dashboard/index", 
+            "product/index", 
+        ],
+        "finance" => [
+            "dashboard/index", 
+            "product/index", 
+            "product/edit", 
+        ]
+     ];
+}
+function allControllers()
+{
+    return [
+        "businessfield" => [
+            "index"
+        ],
+        "customer" => [
+            'index'
+        ],
+        "dashboard" => [
+            'index'
+        ],
+        "kwitansi" => [
+            "index"
+        ],
+        "payment" => [
+            'index'
+        ],
+        "poline" => [
+            'index'
+        ],
+        "product" => [
+            'index', 'create', 'edit', 'delete'
+        ],
+        "purchaseorder" => [
+            'index'
+        ],
+        "saleorder" => [
+            'index'
+        ],
+        "soline" => [
+            'index'
+        ],
+        "uom" => [
+            'index'
+        ],
+        "usermanagament" => [
+            'index', 'create', 'edit', 'setting'
+        ],
+        "users",
+        "vendor" => [
+            'index', 'create', 'edit', 'delete'
+        ],
+    ];
+    // cheetsheet pemalas
+
+    // core/controller
+    
+    // $class = new ReflectionClass($this);
+    // $methods = $class->getMethods(ReflectionMethod::IS_PUBLIC);
+    // foreach ($methods as $key => $value) {
+    //     $arr[] = $value->name;
+    // }
+    // d($arr);
+    // exit;
+
+    // helper
+
+    // $dirs = scandir(__DIR__.'\..\controllers');
+    // foreach ($dirs as $key => $value) {
+    //     if (strstr($value, '.php')) {
+    //         $className = str_replace('.php', '', $value);
+    //         $controllerId = strtolower($className);
+    //         $class[] = $controllerId;
+    //     };
+    // }   
+    // return $class;
 }
 function forbidden()
 {

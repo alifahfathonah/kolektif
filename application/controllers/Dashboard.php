@@ -26,12 +26,6 @@ class Dashboard extends Controller
 			'model' => $model
 		]);
 	}
-	public function vieworder()
-	{
-		$model = new AntrianModel();
-		$data = $model->findAll();
-		dd($data);
-	}
 
 	public function create()
 	{

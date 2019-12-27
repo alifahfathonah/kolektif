@@ -2,6 +2,8 @@
 class Vendor extends Controller 
 {
 	public $models = ['VendorModel', 'Upload', 'BusinessFieldModel']; 
+	public $accessGroup = 'purchasing';
+	
 	public function index()
 	{
 		$model = new VendorModel();
