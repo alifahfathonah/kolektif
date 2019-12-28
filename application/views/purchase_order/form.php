@@ -22,7 +22,8 @@
 							'columns' => [
 								'po_name',
 								'product_name',
-								'qty'
+								'qty',
+								
 							],
 							'uri' => 'poline',
 						]) ?>

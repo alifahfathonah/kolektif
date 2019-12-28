@@ -53,12 +53,15 @@ class SaleOrder extends Controller
 		$dataProvider = $line->findAll();
 		$sum_price=0;
 		foreach($dataProvider as $key => $value){
-		$sum_price += $value->product_price;
+		
+		$value->nilai_baru=$value->product_price*$value->qty;
+		$sum_price += $value->nilai_baru;
 	}
 	
 		if ($this->input->post()!= null) {
 			$model->setAttributes($this->input->post());
 			$model->data->state = 1;
+			$model->data->total_price=$sum_price;
 			if ($model->validate()) {
 				$model->update();
 				redirect($this->controllerId.'/index');
@@ -69,7 +72,6 @@ class SaleOrder extends Controller
 			'dropdown_list' => $dropdown_list,
 			'line' => $dataProvider,
 			'sum'=>$sum_price
-				
 		]);
 		
 		
@@ -88,12 +90,16 @@ class SaleOrder extends Controller
 		$dataProvider = $line->findAll();
 			$sum_price=0;
 		foreach($dataProvider as $key => $value){
-		$sum_price += $value->product_price;
+		
+		$value->nilai_baru=$value->product_price*$value->qty;
+		$sum_price += $value->nilai_baru;
 	}
 
 		if ($this->input->post()!= null) {
 			$model->setAttributes($this->input->post());
 			$model->data->state = 1;
+			
+			$model->data->total_price=$sum_price;
 			if ($model->validate()) {
 				$model->update();
 				redirect($this->controllerId.'/index');

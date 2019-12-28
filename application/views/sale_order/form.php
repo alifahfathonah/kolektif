@@ -2,7 +2,7 @@
 	<div class="col-12">
 		<div class="card m-b-30">
 			<div class="card-body">
-				<?php echo $sum;
+				<?php
 				count($model->errors)>0 ? d($model->errors) : ''?>
 				<?php echo $model->serializeForm([
 					'columns' => [
@@ -24,11 +24,14 @@
 								'so_name',
 								'product_name',
 								'qty',
-								'product_price' ,
+								'product_price',
+								'nilai_baru'
 							],
 							'uri' => 'soline',
+
 						]);
 
+echo 'Total= Rp. '.$sum;
 						 ?>
 					</div>
 				</div>
