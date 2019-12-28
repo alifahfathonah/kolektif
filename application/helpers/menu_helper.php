@@ -40,7 +40,7 @@ function menus()
         ],
         "sales" => [
             "menu" => 'Sales', 
-            'icon' => "ti-shopping-cart", 
+            'icon' => "icon-pricetag", 
             "child" => [
                 ["menu" => 'Customer', "url" => "customer/index"], 
                 ["menu" => 'Sale Order', "url" => "saleorder/index"],
@@ -68,15 +68,6 @@ function menus()
             "child" => [
                 ["menu" => 'Product List', "url" => "werehouse/products"], 
                 ["menu" => 'Purchase Orders', "url" => "werehouse/purchaseorder"], 
-            ]
-        ],
-       
-        "businessfield" => [
-            "menu" => 'Business Fields', 
-            'icon' => "mdi mdi-monitor-dashboard", 
-            'child' => [
-                ["menu" => 'List', "url" => "businessfield"], // << if has child
-                ["menu" => 'Create', "url" => "businessfield/create"], 
             ]
         ],
         "usermanagament" => [
