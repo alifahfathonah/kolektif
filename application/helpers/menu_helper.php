@@ -38,6 +38,15 @@ function menus()
                 ["menu" => 'Salesman', "url" => "dashboard/salesman"], 
             ]
         ],
+        "sales" => [
+            "menu" => 'Sales', 
+            'icon' => "ti-shopping-cart", 
+            "child" => [
+                ["menu" => 'Customer', "url" => "customer/index"], 
+                ["menu" => 'Vendor List', "url" => "vendor/index"], 
+                ["menu" => 'Product List', "url" => "sales/productlist"], 
+            ]
+        ],
         "purchasing" => [
             "menu" => 'Purchasing', 
             'icon' => "ti-shopping-cart", 
@@ -60,11 +69,7 @@ function menus()
                 ["menu" => 'Product List', "url" => "product/index"], 
             ]
         ],
-        "customer" => [
-            "menu" => 'Customer', 
-            'icon' => "ti-user", 
-            "url" => "customer"
-        ],
+       
         "businessfield" => [
             "menu" => 'Business Fields', 
             'icon' => "mdi mdi-monitor-dashboard", 
@@ -86,7 +91,7 @@ function menus()
 function roles()
 {
     return [
-		0 => ['finance','purchasing', 'businessfield', 'dashboard', 'usermanagament', 'customer', 'product', 'werehouse'],
+		0 => ['sales','finance','purchasing', 'businessfield', 'dashboard', 'usermanagament', 'customer', 'product', 'werehouse'],
 		1 => ['purchasing'],
 		2 => ['product'],
 		3 => ['dashboard'],

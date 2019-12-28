@@ -6,6 +6,7 @@ class SaleOrderModel extends Models
 		['field' => 'created_date','type' => 'string'],
 		['field' => 'updated_date','type' => 'string'],
 		['field' => 'customer_id','type' => 'int'],
+		['field' => 'name','type' => 'string'],
 		['field' => 'total_price','type' => 'string'],
 		['field' => 'state','type' => 'int']
 	];
