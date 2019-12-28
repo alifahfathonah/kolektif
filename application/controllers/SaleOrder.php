@@ -48,34 +48,35 @@ class SaleOrder extends Controller
 		// $vendor = new CustomerModel();
 		// $dropdown_list = $vendor->getListForDropdown();
 
-		// $line = new SoLineModel();
-		// $line->select(['so_line.*', 'sale_order.name as so_name', 'product.name as product_name', 'product.retail_price as product_price']);
-		// $line->joinWith('sale_order', 'sale_order.id = so_line.sale_id');
-		// $line->joinWith('product', 'product.id = so_line.product_id');
-		// $line->where('so_line.sale_id',$model->_id);
-
-		// $dataProvider = $line->findAll();
-		// $sum_price=0;
-		// foreach($dataProvider as $key => $value){
-		// 	$value->nilai_baru=$value->product_price*$value->qty;
-		// 	$sum_price += $value->nilai_baru;
-		// }
+		$dataProvider = $line->findAll();
+		$sum_price=0;
+		$total_diskon=0;
+		foreach($dataProvider as $key => $value){
+		
+		$value->sub_harga=$value->product_price*$value->qty;
+		$value->harga=$value->sub_harga-($value->sub_harga*$value->discount/100);
+		$jumlah_diskon=$value->sub_harga*$value->discount/100;
+		$total_diskon += $jumlah_diskon;
+		$sum_price += $value->sub_harga;
+	}
+	$pajak=$sum_price*10/100;
+	$total=$sum_price-$total_diskon+$pajak;
 	
-		// if ($this->input->post()!= null) {
-		// 	$model->setAttributes($this->input->post());
-		// 	$model->data->state = 1;
-		// 	$model->data->total_price=$sum_price;
-		// 	if ($model->validate()) {
-		// 		$model->update();
-		// 		redirect($this->controllerId.'/index');
-		// 	}
-		// }
-		// $this->render('sale_order/form', [
-		// 	'model' => $model,
-		// 	'dropdown_list' => $dropdown_list,
-		// 	'line' => $dataProvider,
-		// 	'sum'=>$sum_price
-		// ]);
+		if ($this->input->post()!= null) {
+			$model->setAttributes($this->input->post());
+			$model->data->state = 1;
+			$model->data->total_price=$total;
+			if ($model->validate()) {
+				$model->update();
+				redirect($this->controllerId.'/index');
+			}
+		}
+		$this->render('sale_order/form', [
+			'model' => $model,
+			'dropdown_list' => $dropdown_list,
+			'line' => $dataProvider,
+			'sum'=>$sum_price
+		]);
 		
 		
 	}
@@ -93,17 +94,26 @@ class SaleOrder extends Controller
 		$line->joinWith('product', 'product.id = so_line.product_id');
 		$line->where('so_line.sale_id',$id);
 		$dataProvider = $line->findAll();
-		$sum_price=0;
+			$sum_price=0;
+		$total_diskon=0;
 		foreach($dataProvider as $key => $value){
-			$value->nilai_baru=$value->product_price*$value->qty;
-			$sum_price += $value->nilai_baru;
-		}
+		
+		$value->sub_harga=$value->product_price*$value->qty;
+		$value->harga=$value->sub_harga-($value->sub_harga*$value->discount/100);
+		$jumlah_diskon=$value->sub_harga*$value->discount/100;
+		$total_diskon += $jumlah_diskon;
+		$sum_price += $value->sub_harga;
+
+
+	}
+	$pajak=$sum_price*10/100;
+	$total=$sum_price-$total_diskon+$pajak;
 
 		if ($this->input->post()!= null) {
 			$model->setAttributes($this->input->post());
 			$model->data->state = $model->data->state == 'on' ? 1 : 0;
-			
-			$model->data->total_price=$sum_price;
+
+			$model->data->total_price=$total;
 			if ($model->validate()) {
 				$model->update();
 				redirect($this->controllerId.'/index');
@@ -115,7 +125,11 @@ class SaleOrder extends Controller
 			'line' => $dataProvider,
 			'sum' =>$sum_price,
 			'SoLineModel' => $line,
-			'product_list' => $product_list
+			'product_list' => $product_list,
+			'total_diskon' =>$total_diskon,
+			'total' =>$total,
+			'pajak'=>$pajak,
+
 		]);
 		
 	}
