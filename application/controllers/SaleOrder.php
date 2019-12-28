@@ -52,16 +52,22 @@ class SaleOrder extends Controller
 
 		$dataProvider = $line->findAll();
 		$sum_price=0;
+		$total_diskon=0;
 		foreach($dataProvider as $key => $value){
 		
-		$value->nilai_baru=$value->product_price*$value->qty;
-		$sum_price += $value->nilai_baru;
+		$value->sub_harga=$value->product_price*$value->qty;
+		$value->harga=$value->sub_harga-($value->sub_harga*$value->discount/100);
+		$jumlah_diskon=$value->sub_harga*$value->discount/100;
+		$total_diskon += $jumlah_diskon;
+		$sum_price += $value->sub_harga;
 	}
+	$pajak=$sum_price*10/100;
+	$total=$sum_price-$total_diskon+$pajak;
 	
 		if ($this->input->post()!= null) {
 			$model->setAttributes($this->input->post());
 			$model->data->state = 1;
-			$model->data->total_price=$sum_price;
+			$model->data->total_price=$total;
 			if ($model->validate()) {
 				$model->update();
 				redirect($this->controllerId.'/index');
@@ -89,17 +95,25 @@ class SaleOrder extends Controller
 		$line->where('so_line.sale_id',$id);
 		$dataProvider = $line->findAll();
 			$sum_price=0;
+		$total_diskon=0;
 		foreach($dataProvider as $key => $value){
 		
-		$value->nilai_baru=$value->product_price*$value->qty;
-		$sum_price += $value->nilai_baru;
+		$value->sub_harga=$value->product_price*$value->qty;
+		$value->harga=$value->sub_harga-($value->sub_harga*$value->discount/100);
+		$jumlah_diskon=$value->sub_harga*$value->discount/100;
+		$total_diskon += $jumlah_diskon;
+		$sum_price += $value->sub_harga;
+
+
 	}
+	$pajak=$sum_price*10/100;
+	$total=$sum_price-$total_diskon+$pajak;
 
 		if ($this->input->post()!= null) {
 			$model->setAttributes($this->input->post());
 			$model->data->state = 1;
-			
-			$model->data->total_price=$sum_price;
+
+			$model->data->total_price=$total;
 			if ($model->validate()) {
 				$model->update();
 				redirect($this->controllerId.'/index');
@@ -109,7 +123,11 @@ class SaleOrder extends Controller
 			'model' => $model,
 			'dropdown_list' => $dropdown_list,
 			'line' => $dataProvider,
-			'sum' =>$sum_price
+			'sum' =>$sum_price,
+			'total_diskon' =>$total_diskon,
+			'total' =>$total,
+			'pajak'=>$pajak,
+
 		]);
 		
 	}

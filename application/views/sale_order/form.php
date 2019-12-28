@@ -10,7 +10,7 @@
 						[
 							'field' => 'customer_id', 
 							'inputType' => 'dropdown', 
-							'label' => 'vendor',
+							'label' => 'customer',
 							'content' => $dropdown_list,
 						]
 					]
@@ -25,13 +25,20 @@
 								'product_name',
 								'qty',
 								'product_price',
-								'nilai_baru'
+								'sub_harga',
+								'discount',
+								'harga'
 							],
 							'uri' => 'soline',
 
 						]);
 
-echo 'Total= Rp. '.$sum;
+echo '<br>Sub Total= Rp. '.$sum;
+echo '<br>Total Discount= Rp. ' .$total_diskon;
+echo '<br>Pajak= Rp. ' .$pajak;
+echo '<br>Total= Rp.' .$total;
+
+
 						 ?>
 					</div>
 				</div>

@@ -12,8 +12,10 @@
 							'content' => $product_list,
 						],
 						'qty',
+						'discount'
 					]
 				]) ?>
+				
 			</div>
 		</div>
 	</div> <!-- end col -->
