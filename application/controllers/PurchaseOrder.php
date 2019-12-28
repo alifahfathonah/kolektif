@@ -37,38 +37,41 @@ class PurchaseOrder extends Controller
 		$model = new PurchaseOrderModel();
 		$prev_po = $model->rawQuery('select id from purchase_order order by id desc limit 1');
 		$model->data->name = 'PO/'.$prev_po[0]->id;
-		if ($this->input->post()== null) {
-			$model->insert();
-			// dd($model->newValue);
-			redirect($this->controllerId.'/edit/'.$model->newValue['id']);
-			$model = new PurchaseOrderModel($model->newValue['id']);
-			
-		} else {
-			$model = new PurchaseOrderModel($prev_po[0]->id);
-		}
-		$vendor = new VendorModel();
-		$dropdown_list = $vendor->getListForDropdown();
+		$model->insert();
+		redirect($this->controllerId.'/edit/'.$model->newValue['id']);
+		// $model = new PurchaseOrderModel($model->newValue['id']);
 
-		$line = new PoLineModel();
-		$line->select(['po_line.*', 'purchase_order.name as po_name', 'product.name as product_name']);
-		$line->joinWith('purchase_order', 'purchase_order.id = po_line.purchase_id');
-		$line->joinWith('product', 'product.id = po_line.product_id');
-		$line->where('po_line.purchase_id',$model->_id);
-		$dataProvider = $line->findAll();
+		// if ($this->input->post()== null) {
+		// 	$model->insert();
+		// 	redirect($this->controllerId.'/edit/'.$model->newValue['id']);
+		// 	$model = new PurchaseOrderModel($model->newValue['id']);
+			
+		// } else {
+		// 	$model = new PurchaseOrderModel($prev_po[0]->id);
+		// }
+		// $vendor = new VendorModel();
+		// $dropdown_list = $vendor->getListForDropdown();
+
+		// $line = new PoLineModel();
+		// $line->select(['po_line.*', 'purchase_order.name as po_name', 'product.name as product_name']);
+		// $line->joinWith('purchase_order', 'purchase_order.id = po_line.purchase_id');
+		// $line->joinWith('product', 'product.id = po_line.product_id');
+		// $line->where('po_line.purchase_id',$model->_id);
+		// $dataProvider = $line->findAll();
 		
-		if ($this->input->post()!= null) {
-			$model->setAttributes($this->input->post());
-			$model->data->state = 1;
-			if ($model->validate()) {
-				$model->update();
-				redirect($this->controllerId.'/index');
-			}
-		}
-		$this->render('purchase_order/advanced_form', [
-			'model' => $model,
-			'dropdown_list' => $dropdown_list,
-			'line' => $dataProvider
-		]);
+		// if ($this->input->post()!= null) {
+		// 	$model->setAttributes($this->input->post());
+		// 	$model->data->state = 1;
+		// 	if ($model->validate()) {
+		// 		$model->update();
+		// 		redirect($this->controllerId.'/index');
+		// 	}
+		// }
+		// $this->render('purchase_order/advanced_form', [
+		// 	'model' => $model,
+		// 	'dropdown_list' => $dropdown_list,
+		// 	'line' => $dataProvider
+		// ]);
 		
 	}
 	public function edit($id)

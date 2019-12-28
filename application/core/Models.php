@@ -245,7 +245,7 @@ class Models extends CI_Model
                     
                         '.$label.'
                         <small class="text-muted">'.$tip.'</small>
-                        <input autocomplete="off" placeholder="'.strtolower($label).'" type="'.$inputType.'" 
+                        <input autocomplete="off" type="'.$inputType.'" 
                         value="'.$data.'" class="'.$class.' '.$field_errors.'" name="'.$value.'" '.$options.'> ';
                     break;
             }
