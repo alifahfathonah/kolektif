@@ -3742,6 +3742,10 @@ table.focus-on tbody tr.focused td {
   padding: 2px 15px 2px 15px;
   min-width: 150px;
 }
+.dropdown-toggle{
+  padding: 7px;
+  min-width: 150px;
+}
 .table thead th{
   background-color: #F8F9FA;
   color: #8ED6FF;
@@ -3812,4 +3816,10 @@ button{
 }
 .breadcrumb-item a{
   color: #45a8da!important;
+}
+.custom-control{
+  margin-top: 20px;
+}
+.custom-control label{
+  user-select: none;
 }

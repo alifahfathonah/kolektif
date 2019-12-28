@@ -216,3 +216,7 @@ function forbidden()
 {
     show_error("You're not allowed to access this page", 403, "Forbidden page");
 }
+function bad_request()
+{
+    show_error("Your request method is not allowed", 405, "Method not allowed");
+}

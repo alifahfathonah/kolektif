@@ -25,13 +25,13 @@
 							'options' => 'id="state"'
                         ]
 					],
-					'btn_text' => 'Proceed Purchase Order',
+					'btn_text' => 'Save as Draft',
 					'btn_position' => 'top'
 				]) ?>
 				
 				<br />
 				<div class="table-rep-plugin">
-					<div class="table-responsive" data-pattern="priority-columns">
+					<div data-pattern="priority-columns">
 						<!-- <?php serializeTable($line, [
 							'rowForm' => true,
 							'columns' => [
@@ -64,7 +64,7 @@
 											'columns' => [
 												[
 													'field' => 'product_id', 
-													'inputType' => 'reg_dropdown', 
+													'inputType' => 'dropdown', 
 													'label' => 'Product',
 													'content' => $product_list,
 												],
@@ -75,11 +75,17 @@
 								</tr>
 								<?php $index = 1; ?>
 								<?php foreach($line as $key => $value){ ?>
-								<tr>
-									<td><?=$index?></td>
+								<tr id="edit_<?=$value->id?>">
+									<td><?=$index++?></td>
 									<td><?=$value->po_name?></td>
 									<td><?=$value->product_name?></td>
-									<td><?=$value->qty?></td>
+									<td class="polineQty"><?=$value->qty?></td>
+									<td>
+										<?= form_open(base_url('poline/delete')) ?>
+										<input type="hidden" name="delete_id" value="<?=$value->id?>">
+										<button class="action-btn ab-pink deleteBtn" type="submit"><i class="fa fa-trash"></i></button>
+										<?= form_close() ?>
+									</td>
 								</tr>
 								<?php } ?>
 							</tbody>

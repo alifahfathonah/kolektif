@@ -17,6 +17,9 @@ class Controller extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+        if ($this->router->fetch_method()=='delete') {
+            $this->validateRequest("POST");
+        }
         $this->controllerId = strtolower(get_class($this));
         $this->thisRoute = $this->controllerId.'/'.$this->router->fetch_method();
         if ((!$this->forGuest) && $this->isGuest()) {
@@ -40,6 +43,12 @@ class Controller extends CI_Controller
     }
     protected function loginInformation(){
         return (object) $this->session->userdata('userdata');
+    }
+    protected function validateRequest($type)
+    {
+		if ($_SERVER['REQUEST_METHOD']!=$type) {
+			bad_request();			
+		}
     }
     protected function assignMenus()
     {

@@ -15,8 +15,8 @@
             'css/metismenu.min.css',
             'css/icons.css',
             'css/style.css',
-            'plugins/select2/select2.css',
-            'plugins/select2/select2-bootrstrap4.min.css',
+            // 'plugins/bselect/css/bootstrap-select.min.css'
+            'plugins/select2/select2.css'
         ]); ?>
 
     </head>
@@ -124,8 +124,9 @@
             'js/jquery.slimscroll.js',
             'js/waves.min.js',
             'js/app.js',
+            'plugins/alertify/js/alertify.js',
             'plugins/select2/select2.min.js',
-            'plugins/alertify/js/alertify.js'
+            // 'plugins/bselect/js/bootstrap-select.min.js'
         ]); ?>
 
             
@@ -148,16 +149,24 @@
             $(document).ready(function(){
                 var flag = false;
                 var status = $('#formPosSo').find('#state').attr('data-val')
+                var btn = $('#formPosSo').find('input[type="submit"]')
                 // alert(status)
                 if (status!=0) {
-                    var btn = $('#formPosSo').find('input[type="submit"]')
                     btn.val('Form has been proceed')
                     btn.removeClass("btn-success")
                     btn.addClass("disabled")
                     $('#addNewLine').remove()
+                    $('.deleteBtn').remove()
                     $('#formPosSo').find('#state').removeAttr('id')
                 }
-                
+                $("#state").click(function(){
+                    if ($(this).prop('checked')) {
+                        btn.val('Save Permanently')
+                    }
+                    else{
+                        btn.val('Save as Draft')
+                    }
+                })
                 $('#formPosSo').submit(function(e){
                     var id = $(this)
                     var ischecked = $('#formPosSo').find('#state').prop('checked')
@@ -180,7 +189,7 @@
                 $('.parsley-error').change(function(){
                     $(this).removeClass("parsley-error")
                 })
-                $('.select2').select2()
+                $('select').select2()
                 $(".deleteData").submit(function(e){
                     var id = $(this)
                     if (!flag) {
@@ -199,6 +208,15 @@
                     $('body').toggleClass("enlarged")
                 })
             })
+            function closeEditor(e){
+                // var sibling = e.parents('td').siblings('.polineQty')
+                e.remove()
+                
+                $('.editPoline').show()
+            }
+            function submit(){
+
+            }
         </script>
         
     </body>

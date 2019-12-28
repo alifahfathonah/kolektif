@@ -189,6 +189,7 @@ class Models extends CI_Model
             $field_errors = isset($this->errors[$value]) ? "parsley-error" : null;
             
             $label = $label == null ? ucwords(str_replace('_', ' ', $value)) : $label;
+            $label = '<label>'.$label.'</label>';
             if (!$useLabel) {
                 $label=null;
             }
@@ -197,14 +198,13 @@ class Models extends CI_Model
             //     return 'column not valid';
             // }
             $data = isset($this->data->$value) ?$this->data->$value : '';
+            
             switch ($inputType) {
                 case 'dropdown':
                     $dropdown = $this->createDropdown($dropDownContent, $data);
-                    $form[] = '
-                    
-                        <label>'.$label.'</label>
+                    $form[] = $label.'
                         <small class="text-muted">'.$tip.'</small>
-                        <select name="'.$value.'" class="'.$class.' select2" '.$options.'>
+                        <select name="'.$value.'" data-live-search="true" class="'.$class.' selectpicker" '.$options.'>
                             '.$dropdown.'
                         </select>';
                     break;
@@ -212,7 +212,7 @@ class Models extends CI_Model
                     $dropdown = $this->createDropdown($dropDownContent, $data);
                     $form[] = '
                     
-                        <label>'.$label.'</label>
+                        '.$label.'
                         <small class="text-muted">'.$tip.'</small>
                         <select name="'.$value.'" class="'.$class.'" '.$options.'>
                             '.$dropdown.'
@@ -221,7 +221,7 @@ class Models extends CI_Model
                 case 'readonly':
                     $form[] = '
                     
-                        <label>'.$label.'</label>
+                        '.$label.'
                         <small class="text-muted">'.$tip.'</small>
                         : <span '.$options.'>'.$data.'</span> ';
                     break;
@@ -243,7 +243,7 @@ class Models extends CI_Model
                 default:
                     $form[] = '
                     
-                        <label>'.$label.'</label>
+                        '.$label.'
                         <small class="text-muted">'.$tip.'</small>
                         <input autocomplete="off" placeholder="'.strtolower($label).'" type="'.$inputType.'" 
                         value="'.$data.'" class="'.$class.' '.$field_errors.'" name="'.$value.'" '.$options.'> ';
