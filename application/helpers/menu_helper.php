@@ -43,7 +43,7 @@ function menus()
             'icon' => "ti-shopping-cart", 
             "child" => [
                 ["menu" => 'Customer', "url" => "customer/index"], 
-                ["menu" => 'Vendor List', "url" => "vendor/index"], 
+                ["menu" => 'Sale Order', "url" => "saleorder/index"],
                 ["menu" => 'Product List', "url" => "sales/productlist"], 
             ]
         ],
