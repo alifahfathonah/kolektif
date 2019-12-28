@@ -88,7 +88,6 @@ class PurchaseOrder extends Controller
 		$line->joinWith('product', 'product.id = po_line.product_id');
 		$line->where('po_line.purchase_id',$id);
 		$dataProvider = $line->findAll();
-		$harga=$dataProvider->product_name;
 
 		if ($this->input->post()!= null) {
 			$model->setAttributes($this->input->post());

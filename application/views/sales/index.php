@@ -24,7 +24,7 @@
 
 							],
 							'uri' => $controllerId,
-							'action' => ['edit']
+							'action' => []
 						]) ?>
 					</div>
 

@@ -15,12 +15,12 @@
                         ],
                         [
                             'field' => 'name',
-                            'label' => 'PO Number',
+                            'label' => 'SO Number',
                             'inputType' => 'inline'
 						],
                         [
 							'field' => 'state',
-							'label' => 'Proses Purhcase Order?',
+							'label' => 'Proses Sales Order?',
 							'inputType' => 'checkbox',
 							'options' => 'id="state"'
                         ]
@@ -32,29 +32,41 @@
 				<br />
 				<div class="table-rep-plugin">
 					<div data-pattern="priority-columns">
-						<!-- <?php serializeTable($line, [
-							'rowForm' => true,
-							'columns' => [
-								'po_name',
-								'product_name',
-								'qty'
-							],
-							'uri' => 'poline',
-						]) ?> -->
 						<table class="table table-hover">
 							<thead>
 								<tr>
 									<th style="width: 70px">No</th>
-									<th>Po Name</th>
-									<th>Product Name</th>
+									<th style="width: 200px">Product Name</th>
 									<th>Qty</th>
+									<th>Product Price</th>
+									<th>Sub Price</th>
+									<th>Discount</th>
+									<th style="width: 130px">Total Price</th>
 									<th style="width: 100px"></th>
 
 								</tr>
 							</thead>
 							<tbody>
+								<?php $index = 1; ?>
+								<?php foreach($line as $key => $value){ ?>
+								<tr id="edit_<?=$value->id?>">
+									<td><?=$index++?></td>
+									<td><?=$value->product_name?></td>
+									<td class="polineQty"><?=$value->qty?></td>
+									<td><?=$value->product_price?></td>
+									<td><?=$value->sub_harga?></td>
+									<td><?=$value->discount?> %</td>
+									<td><?=$value->harga?></td>
+									<td>
+										<?= form_open(base_url('soline/delete')) ?>
+										<input type="hidden" name="delete_id" value="<?=$value->id?>">
+										<button class="action-btn ab-pink deleteBtn" type="submit"><i class="fa fa-trash"></i></button>
+										<?= form_close() ?>
+									</td>
+								</tr>
+								<?php } ?>
+								
 								<tr>
-									<td></td>
 									<td></td>
 									<?=
 										($model->data->state==0) ? $SoLineModel->serializeForm([
@@ -65,33 +77,41 @@
 												[
 													'field' => 'product_id', 
 													'inputType' => 'dropdown', 
-													'label' => 'Product',
 													'content' => $product_list,
 												],
-												'qty'
-											]
+												[
+													'field' => 'qty',
+													'colspan' => '3',
+												],
+												'discount'
+											],
+											'btn_text' => 'Add Porduct',
+											'btn_class' => 'text-btn'
 									]) : null
 									?>
 								</tr>
-								<?php $index = 1; ?>
-								<?php foreach($line as $key => $value){ ?>
-								<tr id="edit_<?=$value->id?>">
-									<td><?=$index++?></td>
-									<td><?=$value->so_name?></td>
-									<td><?=$value->product_name?></td>
-									<td class="polineQty"><?=$value->qty?></td>
-									<td>
-										<?= form_open(base_url('soline/delete')) ?>
-										<input type="hidden" name="delete_id" value="<?=$value->id?>">
-										<button class="action-btn ab-pink deleteBtn" type="submit"><i class="fa fa-trash"></i></button>
-										<?= form_close() ?>
-									</td>
-								</tr>
-								<?php } ?>
 								<tr>
-									<td colspan="4"><h3>Grand Total</h3></td>
+									<td colspan="6"><h6>Sub Total</h6></td>
 									<td>
 										<?php echo 'Rp. '.number_format($sum, 0, ); ?>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="6"><h6>Diskon</h6></td>
+									<td>
+										<?php echo 'Rp. '.number_format($total_diskon, 0, ); ?>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="6"><h6>Pajak</h6></td>
+									<td>
+										<?php echo 'Rp. '.number_format($pajak, 0, ); ?>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="6"><h6>Grand Total</h6></td>
+									<td>
+										<?php echo 'Rp. '.number_format($total, 0, ); ?>
 									</td>
 								</tr>
 							</tbody>

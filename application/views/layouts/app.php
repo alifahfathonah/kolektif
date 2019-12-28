@@ -193,7 +193,7 @@
                 $(".deleteData").submit(function(e){
                     var id = $(this)
                     if (!flag) {
-                        alertify.confirm("Are you sure want to delete?", function() {
+                        alertify.confirm("Are you sure want to complete this action?", function() {
                             flag = true;
                             id.submit()
                         }, function(ev) {

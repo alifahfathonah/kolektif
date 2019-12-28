@@ -183,12 +183,16 @@ class Models extends CI_Model
             $class = isset($value['class']) ? $class.' '.$value['class'] : $class;
             $options = isset($value['options']) ? $value['options'] : null;
             $dropDownContent = isset($value['content']) ? $value['content'] : null;
+            $colspan = isset($value['colspan']) ? $value['colspan'] : null;
+
+            
             if (is_array($value)) {
                 $value = $value['field'];
             }
             $field_errors = isset($this->errors[$value]) ? "parsley-error" : null;
             
             $label = $label == null ? ucwords(str_replace('_', ' ', $value)) : $label;
+            $placeholder = !$useLabel ? $label : null;
             $label = '<label>'.$label.'</label>';
             if (!$useLabel) {
                 $label=null;
@@ -202,7 +206,7 @@ class Models extends CI_Model
             switch ($inputType) {
                 case 'dropdown':
                     $dropdown = $this->createDropdown($dropDownContent, $data);
-                    $form[] = $label.'
+                    $forms = $label.'
                         <small class="text-muted">'.$tip.'</small>
                         <select name="'.$value.'" data-live-search="true" class="'.$class.' selectpicker" '.$options.'>
                             '.$dropdown.'
@@ -210,7 +214,7 @@ class Models extends CI_Model
                     break;
                 case 'reg_dropdown':
                     $dropdown = $this->createDropdown($dropDownContent, $data);
-                    $form[] = '
+                    $forms = '
                     
                         '.$label.'
                         <small class="text-muted">'.$tip.'</small>
@@ -219,35 +223,41 @@ class Models extends CI_Model
                         </select>';
                     break;
                 case 'readonly':
-                    $form[] = '
+                    $forms = '
                     
                         '.$label.'
                         <small class="text-muted">'.$tip.'</small>
                         : <span '.$options.'>'.$data.'</span> ';
                     break;
                 case 'image':
-                    $form[] = '<image src="'.base_url('uploads/').$data.'" style="width: 300px"> <br>';
+                    $forms = '<image src="'.base_url('uploads/').$data.'" style="width: 300px"> <br>';
                     break;
                 case 'button':
-                    $form[] = '
+                    $forms = '
                     
                         <a href="javascript:void(0)" class="btn btn-primary" '.$options.'>'.$label.'</a> ';
                     break;
                 case 'checkbox':
                     $dataCheck = $data ? 'checked' : null;
-                    $form[] = '<div class="custom-control custom-checkbox">
+                    $forms = '<div class="custom-control custom-checkbox">
                         <input data-val="'.$data.'" type="checkbox" id="state" name="'.$value.'" class="custom-control-input" '.$dataCheck.'>
                         <label class="custom-control-label" for="state">'.$label.'</label>
                     </div>';
                     break;
                 default:
-                    $form[] = '
-                    
+                    $forms = '
                         '.$label.'
                         <small class="text-muted">'.$tip.'</small>
-                        <input autocomplete="off" type="'.$inputType.'" 
+                        <input placeholder="'.$placeholder.'" autocomplete="off" type="'.$inputType.'" 
                         value="'.$data.'" class="'.$class.' '.$field_errors.'" name="'.$value.'" '.$options.'> ';
                     break;
+            }
+            if ($isInline) {
+                $form[] = '<td colspan="'.$colspan.'">'.$forms.'</td>';
+            }
+            else{
+                $form[] = $forms;
+
             }
         }
         if (!$isInline) {
@@ -273,10 +283,10 @@ class Models extends CI_Model
         return $form_fix;
     }
     private function template($form, $grid, $isInline=false){
-        if ($isInline) {
-            $form = implode('</td><td>', $form);
-            return '<td>'.$form.'</td>';
-        }
+        // if ($isInline) {
+        //     $form = implode('</td><td>', $form);
+        //     return '<td>'.$form.'</td>';
+        // }
         if ($grid==null) {
             $form = implode('</div><div class="form-group">', $form);
             // return $form;

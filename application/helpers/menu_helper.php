@@ -66,7 +66,8 @@ function menus()
             "menu" => 'Werehouse', 
             'icon' => "ti-briefcase", 
             "child" => [
-                ["menu" => 'Product List', "url" => "product/index"], 
+                ["menu" => 'Product List', "url" => "werehouse/products"], 
+                ["menu" => 'Purchase Orders', "url" => "werehouse/purchaseorder"], 
             ]
         ],
        
