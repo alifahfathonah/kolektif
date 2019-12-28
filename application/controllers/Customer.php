@@ -1,11 +1,15 @@
 <?php 
 class Customer extends Controller 
 {
-	public $models = ['CustomerModel']; 
+	public $models = ['CustomerModel','Upload']; 
 	public function index()
 	{
 		$model = new CustomerModel();
 		$dataProvider = $model->findAll();
+		foreach ($dataProvider as $key => $value) {
+			$value->status = $value->company_status;
+			$value->phone = $value->no_hp;
+		}
 		$this->render('customer/index', [
 			'model' => $dataProvider,
 		]);
@@ -13,7 +17,23 @@ class Customer extends Controller
 	public function create()
 	{
 		$model = new CustomerModel();
+		$upload = new Upload();
 		
+		if ($this->input->post()!= null) {
+			$model->setAttributes($this->input->post());
+			$atch_name = null;
+			if ($upload->save('image')) {
+				$atch_name = $upload->getFileName();
+			}
+			else if($upload->upload->file_name) {
+					$model->errors['image'] = $upload->errors;
+			}
+			$model->data->image = $atch_name;
+			if ($model->validate()) {
+				$model->insert();
+				redirect($this->controllerId.'/index');
+			}
+		}
 		if ($this->input->post()!= null) {
 			$model->setAttributes($this->input->post());
 			if ($model->validate()) {
@@ -21,6 +41,7 @@ class Customer extends Controller
 				redirect($this->controllerId.'/index');
 			}
 		}
+
 		$this->render('customer/form', [
 			'model' => $model,
 		]);
@@ -29,7 +50,22 @@ class Customer extends Controller
 	public function edit($id)
 	{
 		$model = new CustomerModel($id);
-
+		$upload = new Upload();
+		if ($this->input->post()!= null) {
+			$model->setAttributes($this->input->post());
+			$atch_name = null;
+			if ($upload->save('image')) {
+				$atch_name = $upload->getFileName();
+			}
+			else if($upload->upload->file_name) {
+					$model->errors['image'] = $upload->errors;
+			}
+			$model->data->image = $atch_name;
+			if ($model->validate()) {
+				$model->insert();
+				redirect($this->controllerId.'/index');
+			}
+		}
 		if ($this->input->post()!= null) {
 			$model->setAttributes($this->input->post());
 			if ($model->validate()) {

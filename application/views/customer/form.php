@@ -5,7 +5,14 @@
 				<?php count($model->errors)>0 ? d($model->errors) : ''?>
 				<?php echo $model->serializeForm([
                     'columns' => [
-                        'name', 'address', 'contact'
+                        'name', 
+                        'address', 
+                        'company_status',
+                        'npwp',
+                        'email',
+                        'no_hp',
+                        'fax',
+                        ['field' => 'image', 'inputType' => 'file'],
                     ]
                 ]) ?>
 			</div>
