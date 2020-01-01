@@ -40,7 +40,7 @@ function menus()
         ],
         "sales" => [
             "menu" => 'Sales', 
-            'icon' => "ti-shopping-cart", 
+            'icon' => "icon-pricetag", 
             "child" => [
                 ["menu" => 'Customer', "url" => "customer/index"], 
                 ["menu" => 'Sale Order', "url" => "saleorder/index"],
@@ -66,16 +66,8 @@ function menus()
             "menu" => 'Werehouse', 
             'icon' => "ti-briefcase", 
             "child" => [
-                ["menu" => 'Product List', "url" => "product/index"], 
-            ]
-        ],
-       
-        "businessfield" => [
-            "menu" => 'Business Fields', 
-            'icon' => "mdi mdi-monitor-dashboard", 
-            'child' => [
-                ["menu" => 'List', "url" => "businessfield"], // << if has child
-                ["menu" => 'Create', "url" => "businessfield/create"], 
+                ["menu" => 'Product List', "url" => "werehouse/products"], 
+                ["menu" => 'Purchase Orders', "url" => "werehouse/purchaseorder"], 
             ]
         ],
         "usermanagament" => [
@@ -220,4 +212,8 @@ function allControllers()
 function forbidden()
 {
     show_error("You're not allowed to access this page", 403, "Forbidden page");
+}
+function bad_request()
+{
+    show_error("Your request method is not allowed", 405, "Method not allowed");
 }

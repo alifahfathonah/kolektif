@@ -35,20 +35,18 @@ class SaleOrder extends Controller
 		$model = new SaleOrderModel();
 		$prev_po = $model->rawQuery('select id from sale_order order by id desc limit 1');
 		$model->data->name = 'SO/'.$prev_po[0]->id;
-		if ($this->input->post()== null) {
-			$model->insert();
-			$model = new SaleOrderModel($model->newValue['id']);
-		} else {
-			$model = new SaleOrderModel($prev_po[0]->id);
-		}
-		$vendor = new CustomerModel();
-		$dropdown_list = $vendor->getListForDropdown();
+		$model->insert();
+		redirect($this->controllerId.'/edit/'.$model->newValue['id']);
+		// $model = new PurchaseOrderModel($model->newValue['id']);
 
-		$line = new SoLineModel();
-		$line->select(['so_line.*', 'sale_order.name as so_name', 'product.name as product_name', 'product.retail_price as product_price']);
-		$line->joinWith('sale_order', 'sale_order.id = so_line.sale_id');
-		$line->joinWith('product', 'product.id = so_line.product_id');
-		$line->where('so_line.sale_id',$model->_id);
+		// if ($this->input->post()== null) {
+		// 	$model->insert();
+		// 	$model = new SaleOrderModel($model->newValue['id']);
+		// } else {
+		// 	$model = new SaleOrderModel($prev_po[0]->id);
+		// }
+		// $vendor = new CustomerModel();
+		// $dropdown_list = $vendor->getListForDropdown();
 
 		$dataProvider = $line->findAll();
 		$sum_price=0;
@@ -86,6 +84,8 @@ class SaleOrder extends Controller
 		$model = new SaleOrderModel($id);
 		$customer = new CustomerModel();
 		$dropdown_list = $customer->getListForDropdown();
+		$product = new ProductModel();
+		$product_list = $product->getListForDropdown();
 		
 		$line = new SoLineModel();
 		$line->select(['so_line.*', 'sale_order.name as so_name', 'product.name as product_name', 'product.retail_price as product_price']);
@@ -110,7 +110,7 @@ class SaleOrder extends Controller
 
 		if ($this->input->post()!= null) {
 			$model->setAttributes($this->input->post());
-			$model->data->state = 1;
+			$model->data->state = $model->data->state == 'on' ? 1 : 0;
 
 			$model->data->total_price=$total;
 			if ($model->validate()) {
@@ -118,11 +118,13 @@ class SaleOrder extends Controller
 				redirect($this->controllerId.'/index');
 			}
 		}
-		$this->render('sale_order/form', [
+		$this->render('sale_order/advanced_form', [
 			'model' => $model,
 			'dropdown_list' => $dropdown_list,
 			'line' => $dataProvider,
 			'sum' =>$sum_price,
+			'SoLineModel' => $line,
+			'product_list' => $product_list,
 			'total_diskon' =>$total_diskon,
 			'total' =>$total,
 			'pajak'=>$pajak,

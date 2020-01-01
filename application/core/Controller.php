@@ -10,12 +10,16 @@ class Controller extends CI_Controller
     public $exclution = false;
     public $accessGroup;
     public $thisRoute;
+    public $searchKey;
 
     public $roles = ['vendor', 'bfield'];
     
     public function __construct()
     {
         parent::__construct();
+        if ($this->router->fetch_method()=='delete') {
+            $this->validateRequest("POST");
+        }
         $this->controllerId = strtolower(get_class($this));
         $this->thisRoute = $this->controllerId.'/'.$this->router->fetch_method();
         if ((!$this->forGuest) && $this->isGuest()) {
@@ -34,9 +38,17 @@ class Controller extends CI_Controller
             }
         }
         $this->load->model($this->models);
+        $search = isset($_GET['search_key']) ? $_GET['search_key'] : null;
+        $this->searchKey = $search;
     }
     protected function loginInformation(){
         return (object) $this->session->userdata('userdata');
+    }
+    protected function validateRequest($type)
+    {
+		if ($_SERVER['REQUEST_METHOD']!=$type) {
+			bad_request();			
+		}
     }
     protected function assignMenus()
     {

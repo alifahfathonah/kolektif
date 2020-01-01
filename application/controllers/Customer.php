@@ -62,13 +62,6 @@ class Customer extends Controller
 			}
 			$model->data->image = $atch_name;
 			if ($model->validate()) {
-				$model->insert();
-				redirect($this->controllerId.'/index');
-			}
-		}
-		if ($this->input->post()!= null) {
-			$model->setAttributes($this->input->post());
-			if ($model->validate()) {
 				$model->update();
 				redirect($this->controllerId.'/index');
 			}

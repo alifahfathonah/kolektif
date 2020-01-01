@@ -19,6 +19,7 @@ function getState($int=0)
         'Draft',
         'Accepted',
         'On Process',
+        'On Process',
         'Done',
         'Cance;'
     ];
@@ -42,12 +43,25 @@ function textField($model, $options = []){
     return form_input($options);
 }
 
-function actionColoumn(Array $template, $uri, $id)
+function actionColoumn(Array $template, $uris, $model, $condition)
 {
+    $id = $model->id;
+    $uri = $uris;
     if ($uri==null) {
         return null;
     }
     foreach ($template as $key => $value) {
+        if (is_array($uris)) {
+            $uri = isset($uris[$value]) ? $uris[$value] : $uri;
+        }
+        foreach ($condition as $key2 => $value2) {
+            if ($value==$key2) {
+                if ($model->$value2 != 'Accepted') {
+                    $value = 'accepted';
+                }
+            }
+            
+        }
         switch ($value) {
             case 'edit':
                 $icon = 'ti-pencil-alt';
@@ -58,22 +72,35 @@ function actionColoumn(Array $template, $uri, $id)
                 $btns[] = deleteButton($id, $uri.'/delete');
                 break;
             
+            case 'activate':
+                $btns[] = deleteButton($id, $uri.'/activate', 'ti-check', 'btn-light');
+                break;
+            
+            case 'accepted':
+                $icon = 'ti-check';
+                $color = 'btn-success';
+                $btns[] = "<a class='action-btn ".$color."' href='javascript:void(0)'><span class='".$icon."'></span></a>";
+                break;
+            case 'detail':
+                $icon = 'ti-eye';
+                $color = 'ab-yellow';
+                $btns[] = "<a class='action-btn ".$color."' href='".base_url().$uri."/$id'><span class='".$icon."'></span></a>";
+                break;
             default:
                 # code...
                 break;
         }
         
-        
     }
     return '<td>'.implode(' ', $btns).'</td>';
 }
 
-function deleteButton($id, $uri)
+function deleteButton($id, $uri, $icon='fa fa-trash', $color='ab-pink')
 {
     
     $form[] = '<input type="hidden" name="delete_id" value="'.$id.'">';
     return form_open($uri, 'class="d-inline deleteData" id="deleteData'.$id.'"').implode('', $form).
-    '<button type="submit" class="action-btn ab-pink"><span class="fa fa-trash"></span></button> </form>';
+    '<button type="submit" class="action-btn '.$color.'"><span class="'.$icon.'"></span></button> </form>';
 }
 
 function serializeTable($model, Array $config = [])
@@ -82,6 +109,8 @@ function serializeTable($model, Array $config = [])
     $action = isset($config['action']) ? $config['action'] : ['edit', 'delete'];
     $columns = $config['columns'];
     $actionLabel = $action ? '<th style="width: 100px"></th>' : '';
+    $btn_condition = isset($config['btn_condition']) ? $config['btn_condition'] : [];
+    $uri = isset($config['uri']) ? $config['uri'] : null;
 
     foreach ($columns as $key => $value) {
         if (is_array($value)) {
@@ -96,7 +125,7 @@ function serializeTable($model, Array $config = [])
 
     foreach ($model as $key => $value) {
         $index = $key+1;
-        $action_btn = $action ? actionColoumn($action, isset($config['uri']) ? $config['uri'] : null, $value->id) : '';
+        $action_btn = $action ? actionColoumn($action, $uri, $value, $btn_condition) : '';
         foreach ($columns as $key2 => $value2) {
             $template = isset($value2['template']) ? $value2['template'] : null;
             if (is_array($value2)) {

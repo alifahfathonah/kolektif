@@ -5,15 +5,29 @@
 				<?php
 				count($model->errors)>0 ? d($model->errors) : ''?>
 				<?php echo $model->serializeForm([
+					'grid' => 'col-md-6',
+					'formOptions' => 'id="formPosSo"',
 					'columns' => [
-						'name',
 						[
 							'field' => 'customer_id', 
 							'inputType' => 'dropdown', 
 							'label' => 'customer',
 							'content' => $dropdown_list,
-						]
-					]
+						].
+                        [
+                            'field' => 'name',
+                            'label' => 'PO Number',
+                            'inputType' => 'inline'
+						],
+                        [
+							'field' => 'state',
+							'label' => 'Proses Purhcase Order?',
+							'inputType' => 'checkbox',
+							'options' => 'id="state"'
+                        ]
+					],
+					'btn_text' => 'Save as Draft',
+					'btn_position' => 'top'
 				]) ?>
 				<br/>
 				<a href="<?php echo base_url() ?>soline/create/<?php echo $model->_id ?>" class="btn ab-blue"><span class="fa fa-plus"></span> New Line</a>

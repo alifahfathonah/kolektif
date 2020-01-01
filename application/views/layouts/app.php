@@ -15,8 +15,8 @@
             'css/metismenu.min.css',
             'css/icons.css',
             'css/style.css',
-            'plugins/select2/select2.css',
-            'plugins/select2/select2-bootrstrap4.min.css',
+            // 'plugins/bselect/css/bootstrap-select.min.css'
+            'plugins/select2/select2.css'
         ]); ?>
 
     </head>
@@ -61,9 +61,9 @@
                     </ul>
                     <ul class="list-inline menu-left mb-0">
                         <li class="d-none d-md-inline-block">
-                            <form role="search" class="app-search">
+                            <form role="search" action="" method="get" class="app-search">
                                 <div class="form-group mb-0">
-                                    <input type="text" class="form-control" placeholder="Search..">
+                                    <input name="search_key" type="text" value="<?=isset($_GET['search_key']) ? $_GET['search_key']: null?>" class="form-control" placeholder="Search..">
                                     <button type="submit"><i class="fa fa-search"></i></button>
                                 </div>
                             </form>
@@ -124,8 +124,9 @@
             'js/jquery.slimscroll.js',
             'js/waves.min.js',
             'js/app.js',
+            'plugins/alertify/js/alertify.js',
             'plugins/select2/select2.min.js',
-            'plugins/alertify/js/alertify.js'
+            // 'plugins/bselect/js/bootstrap-select.min.js'
         ]); ?>
 
             
@@ -146,15 +147,53 @@
 
         <script>
             $(document).ready(function(){
+                var flag = false;
+                var status = $('#formPosSo').find('#state').attr('data-val')
+                var btn = $('#formPosSo').find('input[type="submit"]')
+                // alert(status)
+                if (status!=0) {
+                    btn.val('Form has been proceed')
+                    btn.removeClass("btn-success")
+                    btn.addClass("disabled")
+                    $('#addNewLine').remove()
+                    $('.deleteBtn').remove()
+                    $('#formPosSo').find('#state').removeAttr('id')
+                }
+                $("#state").click(function(){
+                    if ($(this).prop('checked')) {
+                        btn.val('Save Permanently')
+                    }
+                    else{
+                        btn.val('Save as Draft')
+                    }
+                })
+                $('#formPosSo').submit(function(e){
+                    var id = $(this)
+                    var ischecked = $('#formPosSo').find('#state').prop('checked')
+                    if (status!=0) {
+                        e.preventDefault()
+                        return false
+                    }
+                    else if (!flag && ischecked) {
+                        alertify.confirm("Are you sure want to permanently save? ", function() {
+                            flag = true;
+                            id.submit()
+                        }, function(ev) {
+                            flag = false;
+                            ev.preventDefault();
+                            return false
+                        });
+                        e.preventDefault()
+                    }
+                })
                 $('.parsley-error').change(function(){
                     $(this).removeClass("parsley-error")
                 })
                 $('select').select2()
-                var flag = false;
                 $(".deleteData").submit(function(e){
                     var id = $(this)
                     if (!flag) {
-                        alertify.confirm("Are you sure want to delete?", function() {
+                        alertify.confirm("Are you sure want to complete this action?", function() {
                             flag = true;
                             id.submit()
                         }, function(ev) {
@@ -169,6 +208,15 @@
                     $('body').toggleClass("enlarged")
                 })
             })
+            function closeEditor(e){
+                // var sibling = e.parents('td').siblings('.polineQty')
+                e.remove()
+                
+                $('.editPoline').show()
+            }
+            function submit(){
+
+            }
         </script>
         
     </body>
