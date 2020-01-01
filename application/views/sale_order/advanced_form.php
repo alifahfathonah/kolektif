@@ -93,25 +93,25 @@
 								<tr>
 									<td colspan="6"><h6>Sub Total</h6></td>
 									<td>
-										<?php echo 'Rp. '.number_format($sum, 0, ); ?>
+										<?php echo 'Rp. '.number_format($sum, 0, ',','.' ); ?>
 									</td>
 								</tr>
 								<tr>
 									<td colspan="6"><h6>Diskon</h6></td>
 									<td>
-										<?php echo 'Rp. '.number_format($total_diskon, 0, ); ?>
+										<?php echo 'Rp. '.number_format($total_diskon, 0, ',','.'); ?>
 									</td>
 								</tr>
 								<tr>
 									<td colspan="6"><h6>Pajak</h6></td>
 									<td>
-										<?php echo 'Rp. '.number_format($pajak, 0, ); ?>
+										<?php echo 'Rp. '.number_format($pajak, 0, ',','.'); ?>
 									</td>
 								</tr>
 								<tr>
 									<td colspan="6"><h6>Grand Total</h6></td>
 									<td>
-										<?php echo 'Rp. '.number_format($total, 0, ); ?>
+										<?php echo 'Rp. '.number_format($total, 0, ',','.'); ?>
 									</td>
 								</tr>
 							</tbody>
