@@ -54,14 +54,13 @@ class SaleOrder extends Controller
 		$sum_price=0;
 		$total_diskon=0;
 		foreach($dataProvider as $key => $value){
-		
 		$value->sub_harga=$value->product_price*$value->qty;
 		$value->harga=$value->sub_harga-($value->sub_harga*$value->discount/100);
 		$jumlah_diskon=$value->sub_harga*$value->discount/100;
 		$total_diskon += $jumlah_diskon;
 		$sum_price += $value->sub_harga;
 	}
-	$pajak=$sum_price*10/100;
+	$pajak=($sum_price-$total_diskon)*10/100;
 	$total=$sum_price-$total_diskon+$pajak;
 	
 		if ($this->input->post()!= null) {
@@ -106,7 +105,7 @@ class SaleOrder extends Controller
 
 
 	}
-	$pajak=$sum_price*10/100;
+	$pajak=($sum_price-$total_diskon)*10/100;
 	$total=$sum_price-$total_diskon+$pajak;
 
 		if ($this->input->post()!= null) {

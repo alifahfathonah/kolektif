@@ -32,7 +32,11 @@
 							'uri' => 'soline',
 
 						]);
-
+if (($sum==0)){ 
+$total_diskon=0;
+$pajak=0;
+$total=0;
+}
 echo '<br>Sub Total= Rp. '.$sum;
 echo '<br>Total Discount= Rp. ' .$total_diskon;
 echo '<br>Pajak= Rp. ' .$pajak;
