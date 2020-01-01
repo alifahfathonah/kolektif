@@ -60,6 +60,7 @@ function menus()
             'icon' => "ti-money", 
             "child" => [
                 ["menu" => 'Product List', "url" => "finance/index"], 
+                ["menu" => 'Payroll', "url" => "payroll/index"], 
             ]
         ],
         "werehouse" => [
